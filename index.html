@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>Alfa Portal VIP - Premium Community &amp; Rakeback</title>
+    <meta name="description" content="The ultimate destination for VIP players. Access exclusive affiliate benefits, elite rakeback structures, and authoritative reviews in a secure, premium environment." />
+    <meta property="og:title" content="Alfa Portal VIP - Premium Community &amp; Rakeback" />
+    <meta property="og:description" content="The ultimate destination for VIP players. Access exclusive affiliate benefits, elite rakeback structures, and authoritative reviews in a secure, premium environment." />
+    <meta property="og:type" content="website" />
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#C9A84C" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Alfa Portal VIP" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/icon-192.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Partner redirects - handle /api/go/* routes -->
+    <script>
+      (function() {
+        var routes = {
+          '/api/go/stake':   'https://stake.com/?c=7jlHcmRU',
+          '/api/go/1win':    'https://one-vv407.com/betting?p=pgoj&sharebet=alfaportalvip',
+          '/api/go/roobet':  'https://roobet.com/',
+          '/api/go/bcgame':  'https://bc.game/',
+          '/api/go/rollbit': 'https://rollbit.com/',
+          '/api/go/binance': 'https://www.binance.com/en/register?ref=GRO_28502_3CYHZ',
+          '/api/go/bybit':   'https://www.bybit.com/en/invite?ref=1JXM10B',
+          '/api/go/ggpoker': 'https://ggpoker.com/?btag=ALFAPORTALVIP'
+        };
+        var path = window.location.pathname;
+        if (routes[path]) {
+          window.location.replace(routes[path]);
+        }
+      })();
+    </script>
+
+    <script type="module" crossorigin src="/assets/index-f8Oeifuq.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BYtsfhjG.css">
+
+    <!-- VIP Assistant Widget -->
+    <style>
+      #apv-btn {
+        position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+        display: flex; align-items: center; gap: 10px;
+        background: linear-gradient(135deg, #1a1400, #2a1e00);
+        border: 1px solid #C9A84C; border-radius: 50px;
+        padding: 10px 18px 10px 10px;
+        cursor: pointer; box-shadow: 0 4px 20px #C9A84C33;
+        transition: all 0.3s; font-family: 'Inter', sans-serif;
+      }
+      #apv-btn:hover { box-shadow: 0 6px 28px #C9A84C55; transform: translateY(-2px); }
+      #apv-btn-av { width:38px;height:38px;border-radius:50%;background:radial-gradient(circle at 40% 40%,#e8c96a,#8a6f2e);border:2px solid #C9A84C;display:flex;align-items:center;justify-content:center;font-size:16px; }
+      #apv-btn-lbl { font-size:12px;font-weight:700;color:#C9A84C;letter-spacing:1px;text-transform:uppercase; }
+      #apv-btn-dot { width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;margin-left:4px; }
+      #apv-win {
+        position:fixed;bottom:90px;right:24px;z-index:9998;
+        width:360px;max-height:580px;
+        background:#0d0d0d;border:1px solid #C9A84C44;
+        border-radius:16px;overflow:hidden;
+        box-shadow:0 8px 40px #00000088;
+        display:none;flex-direction:column;
+        font-family:'Inter',sans-serif;
+      }
+      #apv-win * { box-sizing:border-box;margin:0;padding:0; }
+      .apv-hdr { display:flex;align-items:center;gap:10px;padding:12px 14px;background:#111;border-bottom:1px solid #C9A84C44; }
+      .apv-hdr-av { width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 40% 40%,#e8c96a,#8a6f2e);border:1.5px solid #C9A84C;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0; }
+      .apv-hdr-info { flex:1; }
+      .apv-hdr-name { font-size:12px;font-weight:700;color:#C9A84C; }
+      .apv-hdr-status { font-size:10px;color:#888; }
+      .apv-close { width:28px;height:28px;border-radius:50%;background:#222;border:1px solid #333;color:#888;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1; }
+      .apv-close:hover { background:#333;color:#fff; }
+      .apv-tabs { display:flex;border-bottom:1px solid #1a1a1a; }
+      .apv-tab { flex:1;padding:8px;text-align:center;font-size:10px;font-weight:600;cursor:pointer;color:#888;background:transparent;border:none;transition:all 0.2s;letter-spacing:0.5px; }
+      .apv-tab.active { color:#C9A84C;border-bottom:2px solid #C9A84C; }
+      .apv-chat { flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px;min-height:220px;max-height:300px; }
+      .apv-chat::-webkit-scrollbar { width:3px; }
+      .apv-chat::-webkit-scrollbar-thumb { background:#333;border-radius:2px; }
+      .apv-msg { display:flex;gap:8px; }
+      .apv-msg.u { flex-direction:row-reverse; }
+      .apv-msg.u .apv-bub { background:#8a6f2e;color:#fff;border-radius:12px 2px 12px 12px; }
+      .apv-msg.b .apv-bub { background:#1a1a1a;border:1px solid #2a2a2a;border-radius:2px 12px 12px 12px;color:#e8d5a3; }
+      .apv-bub { padding:8px 12px;font-size:12px;line-height:1.5;max-width:80%; }
+      .apv-av { width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 40% 40%,#e8c96a,#8a6f2e);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#000;flex-shrink:0;margin-top:2px; }
+      .apv-av.u { background:#2a2a2a;color:#C9A84C; }
+      .apv-typing { display:flex;gap:4px;align-items:center;padding:8px 12px; }
+      .apv-td { width:5px;height:5px;border-radius:50%;background:#C9A84C;animation:apvb 1.2s infinite; }
+      .apv-td:nth-child(2){animation-delay:.2s}.apv-td:nth-child(3){animation-delay:.4s}
+      @keyframes apvb{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+      .apv-qbtns { display:flex;flex-wrap:wrap;gap:5px;padding:8px 12px 4px; }
+      .apv-qbtn { font-size:10px;padding:4px 9px;border:1px solid #C9A84C44;border-radius:20px;background:transparent;color:#C9A84C;cursor:pointer;transition:all 0.2s;white-space:nowrap; }
+      .apv-qbtn:hover { background:#C9A84C;color:#000; }
+      .apv-foot { padding:10px 12px;border-top:1px solid #1a1a1a; }
+      .apv-irow { display:flex;gap:8px; }
+      .apv-inp { flex:1;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;padding:8px 12px;color:#e8d5a3;font-size:12px;outline:none;transition:border .2s;font-family:'Inter',sans-serif; }
+      .apv-inp:focus { border-color:#C9A84C; }
+      .apv-inp::placeholder { color:#555; }
+      .apv-inp:disabled { opacity:.4; }
+      .apv-sbtn { width:34px;height:34px;border-radius:8px;background:#C9A84C;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+      .apv-sbtn:hover { background:#e8b84c; }
+      .apv-sbtn:disabled { opacity:.4;cursor:not-allowed; }
+      .apv-limit { font-size:11px;color:#C9A84C;text-align:center;padding:10px 12px;background:#1a1200;border-top:1px solid #C9A84C22; }
+      .apv-rbtn { display:inline-block;margin-top:6px;padding:5px 14px;background:#C9A84C;color:#000;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;border:none; }
+      .apv-panel { padding:12px;overflow-y:auto;max-height:340px; }
+      .apv-panel-ttl { font-size:11px;font-weight:700;color:#C9A84C;margin-bottom:10px;letter-spacing:0.5px; }
+      .apv-mlist { display:flex;flex-direction:column;gap:6px;margin-bottom:10px; }
+      .apv-mitem { display:flex;justify-content:space-between;align-items:center;padding:7px 10px;background:#1a1a1a;border-radius:8px;font-size:12px;color:#e8d5a3; }
+      .apv-badge { padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600; }
+      .apv-vip { background:#C9A84C;color:#000; }
+      .apv-free { background:#333;color:#aaa; }
+      .apv-mrow { display:flex;gap:6px; }
+      .apv-minp { flex:1;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;padding:7px 10px;color:#e8d5a3;font-size:12px;outline:none;font-family:'Inter',sans-serif; }
+      .apv-minp:focus { border-color:#C9A84C; }
+      .apv-msel { background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;padding:7px;color:#e8d5a3;font-size:12px;outline:none; }
+      .apv-mbtn { padding:7px 12px;background:#C9A84C;color:#000;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer; }
+      .apv-aditem { background:#1a0808;border:1px solid #ff222233;border-radius:8px;padding:10px;margin-bottom:8px;font-size:12px;color:#ffcccc; }
+      .apv-adbtns { display:flex;gap:6px;margin-top:8px; }
+      .apv-ok { padding:5px 14px;background:#22c55e;color:#000;border:none;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer; }
+      .apv-no { padding:5px 14px;background:#ef4444;color:#fff;border:none;border-radius:6px;font-size:11px;cursor:pointer; }
+      .apv-empty { font-size:12px;color:#555;text-align:center;padding:20px; }
+      #apv-admin-btn { position:fixed;bottom:24px;left:24px;z-index:9997;background:#111;border:1px solid #333;border-radius:8px;padding:6px 12px;color:#888;font-size:11px;cursor:pointer;font-family:'Inter',sans-serif;display:none; }
+      #apv-admin-btn:hover { border-color:#C9A84C;color:#C9A84C; }
+      /* Hide old built-in React assistant */
+      #root > div > div:last-child > button:last-child,
+      [class*="chat-widget"], [class*="ChatWidget"],
+      [class*="vip-chat"], [class*="VipChat"],
+      [class*="assistant-widget"], [class*="AssistantWidget"] {
+        display: none !important;
+      }
+    
+      /* Hide old built-in assistant */
+
+      /* Hide old React assistant elements */
+      .fixed.bottom-\[22px\].right-\[76px\] { display: none !important; }
+      [class*="bottom"][class*="right-"][class*="z-\[9999\]"]:not(#apv-btn):not(#apv-win):not(#apv-admin-btn) { display: none !important; }
+
+      button[class*="fixed"][class*="bottom"], 
+      div[class*="fixed"][class*="bottom-6"][class*="right-6"]:not(#apv-btn):not(#apv-win):not(#apv-admin-btn) {
+        display: none !important;
+      }
+</style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!-- Widget Button -->
+    <div id="apv-btn" onclick="apvToggle()">
+      <div id="apv-btn-av">🏆</div>
+      <div id="apv-btn-lbl">Asistenti VIP</div>
+      <div id="apv-btn-dot"></div>
+    </div>
+
+    <!-- Admin Button (hidden, activate with secret code) -->
+    <div id="apv-admin-btn" onclick="apvShowAdmin()">⚙ Admin</div>
+
+    <!-- Chat Window -->
+    <div id="apv-win">
+      <div class="apv-hdr">
+        <div class="apv-hdr-av">🏆</div>
+        <div class="apv-hdr-info">
+          <div class="apv-hdr-name">Alfa Portal VIP Assistant</div>
+          <div class="apv-hdr-status">● LIVE · STAKE · 1win · BINANCE · BYBIT</div>
+        </div>
+        <div class="apv-close" onclick="apvToggle()">×</div>
+      </div>
+      <div class="apv-tabs">
+        <button class="apv-tab active" onclick="apvTab('chat')" id="tab-chat">💬 CHAT</button>
+        <button class="apv-tab" onclick="apvTab('members')" id="tab-members">👥 MEMBERS</button>
+        <button class="apv-tab" onclick="apvTab('ads')" id="tab-ads">📢 ADS <span id="apv-ads-count"></span></button>
+      </div>
+
+      <!-- Chat Tab -->
+      <div id="apv-chat-tab">
+        <div class="apv-chat" id="apv-chat"></div>
+        <div id="apv-limit" style="display:none" class="apv-limit">
+          🔒 This platform is exclusive to <strong>Alfa Portal VIP</strong> members.<br>
+          <button class="apv-rbtn" onclick="window.location.href='#register'">Register Now →</button>
+        </div>
+        <div class="apv-qbtns" id="apv-qbtns">
+          <button class="apv-qbtn" onclick="apvQ('Stake Rakeback')">🎰 Stake</button>
+          <button class="apv-qbtn" onclick="apvQ('1win Bonus')">🎁 1win</button>
+          <button class="apv-qbtn" onclick="apvQ('Binance VIP')">₿ Binance</button>
+          <button class="apv-qbtn" onclick="apvQ('Bybit Rewards')">📈 Bybit</button>
+          <button class="apv-qbtn" onclick="apvQ('What does Alfa Portal VIP offer?')">ℹ Info</button>
+        </div>
+        <div class="apv-foot">
+          <div class="apv-irow">
+            <input class="apv-inp" id="apv-inp" placeholder="Ask about Stake, 1win, Binance..." onkeydown="if(event.key==='Enter')apvSend()">
+            <button class="apv-sbtn" id="apv-sbtn" onclick="apvSend()">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="#000"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Members Tab -->
+      <div id="apv-members-tab" style="display:none">
+        <div class="apv-panel">
+          <div class="apv-panel-ttl">👥 REGISTERED MEMBERS</div>
+          <div class="apv-mlist" id="apv-mlist"></div>
+          <div class="apv-mrow">
+            <input class="apv-minp" id="apv-mnew" placeholder="username / email...">
+            <select class="apv-msel" id="apv-mrole">
+              <option value="vip">VIP</option>
+              <option value="free">Free</option>
+            </select>
+            <button class="apv-mbtn" onclick="apvAddMember()">+ Add</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ads Tab -->
+      <div id="apv-ads-tab" style="display:none">
+        <div class="apv-panel">
+          <div class="apv-panel-ttl">📢 ADS PENDING APPROVAL</div>
+          <div id="apv-adlist"></div>
+          <div id="apv-noad" class="apv-empty">No ads pending approval.</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+    (function() {
+      var SUPABASE_URL = 'https://rzpiurlabidtvrcumsta.supabase.co';
+      var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ6cGl1cmxhYmlkdHZyY3Vtc3RhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0MzEwNjIsImV4cCI6MjA5NDAwNzA2Mn0.4djiLTm9a2L2ehkrmhNxODORLToteJjCcu4_pSk0o0o';
+      var OPENAI_KEY = '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';
+      var ADMIN_CODE = 'alfavip2024';
+
+      var SYS = 'You are the VIP Assistant of Alfa Portal VIP - a premium casino and sports betting platform.\n\nLANGUAGE RULE:\n- First welcome message: ALWAYS in English\n- All replies after: match the visitor\'s language exactly\n\nPARTNERS (NEVER share affiliate codes or tracking links - just mention the platform name and bonuses):\n- Stake: 3.5% exclusive rakeback\n- 1win: 500% welcome bonus up to \u20ac1500\n- Binance: VIP crypto exchange with reduced fees\n- Bybit: trading rewards program\n- Roobet: 20% daily cashback\n- BC.Game: 300% deposit match\n- Rollbit: 15% instant rakeback + futures & NFTs\n- GGPoker: VIP poker program\n\nRULES:\n1. Be friendly, professional, enthusiastic\n2. NEVER share affiliate codes, referral links or tracking parameters\n3. When recommending a platform just say "you can register through our portal" - DO NOT share any links or codes\n4. Every person who registers through Alfa Portal VIP automatically becomes a member and gets the VIP benefits\n5. Short clear replies with emojis\n6. Non-members: max 5 questions then say to register at alfaportal-vip.com\n7. Never mention codes like c=, ref=, btag=, sharebet= or any tracking parameters';
+
+      var msgs = [], guestQ = 0, loading = false, opened = false, pendingAds = [], members = [];
+      var MAX_Q = 5;
+      var isAdmin = false;
+
+      // Admin unlock: type secret code (desktop) OR tap logo 7 times fast (mobile)
+      var adminBuf = '';
+      document.addEventListener('keypress', function(e) {
+        adminBuf += e.key;
+        if (adminBuf.length > 12) adminBuf = adminBuf.slice(-12);
+        if (adminBuf.includes(ADMIN_CODE)) {
+          isAdmin = true;
+          document.getElementById('apv-admin-btn').style.display = 'block';
+          adminBuf = '';
+        }
+      });
+
+      // Mobile: tap the widget button 7 times fast to open admin
+      var tapCount = 0, tapTimer = null;
+      document.getElementById('apv-btn').addEventListener('click', function(e) {
+        tapCount++;
+        clearTimeout(tapTimer);
+        tapTimer = setTimeout(function() { tapCount = 0; }, 2000);
+        if (tapCount >= 7) {
+          tapCount = 0;
+          isAdmin = true;
+          document.getElementById('apv-admin-btn').style.display = 'block';
+          apvShowAdmin();
+        }
+      });
+
+      function apvDB(method, table, body) {
+        return fetch(SUPABASE_URL + '/rest/v1/' + table, {
+          method: method,
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_KEY,
+            'Authorization': 'Bearer ' + SUPABASE_KEY,
+            'Prefer': method === 'POST' ? 'return=representation' : ''
+          },
+          body: body ? JSON.stringify(body) : undefined
+        }).then(function(r) { return r.json(); });
+      }
+
+      function apvDBGet(table, query) {
+        return fetch(SUPABASE_URL + '/rest/v1/' + table + (query || ''), {
+          headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+        }).then(function(r) { return r.json(); });
+      }
+
+      window.apvToggle = function() {
+        var win = document.getElementById('apv-win');
+        var isOpen = win.style.display === 'flex';
+        win.style.display = isOpen ? 'none' : 'flex';
+        if (!isOpen && !opened) {
+          opened = true;
+          var w = '🎰 Welcome to **Alfa Portal VIP**!\n\nI\'m your VIP Assistant. How can I help you today?\n\n💎 Ask about Stake, 1win, Binance, Bybit and more!';
+          msgs.push({role:'assistant', content:w});
+          apvRender(w, false);
+          apvLoadMembers();
+          apvLoadAds();
+        }
+      };
+
+      window.apvShowAdmin = function() {
+        var win = document.getElementById('apv-win');
+        win.style.display = 'flex';
+        apvTab('ads');
+      };
+
+      window.apvTab = function(tab) {
+        ['chat','members','ads'].forEach(function(t) {
+          document.getElementById('apv-'+t+'-tab').style.display = t===tab ? 'block' : 'none';
+          var btn = document.getElementById('tab-'+t);
+          if (btn) btn.classList.toggle('active', t===tab);
+        });
+        if (tab === 'members') apvLoadMembers();
+        if (tab === 'ads') apvLoadAds();
+      };
+
+      function apvRender(text, isUser) {
+        var area = document.getElementById('apv-chat');
+        var div = document.createElement('div');
+        div.className = 'apv-msg ' + (isUser ? 'u' : 'b');
+        var fmt = text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+        div.innerHTML = '<div class="apv-av '+(isUser?'u':'')+'">'+(isUser?'U':'A')+'</div><div class="apv-bub">'+fmt+'</div>';
+        area.appendChild(div);
+        area.scrollTop = area.scrollHeight;
+      }
+
+      function apvTyping(show) {
+        var t = document.getElementById('apv-typ');
+        if (show && !t) {
+          var area = document.getElementById('apv-chat');
+          var d = document.createElement('div');
+          d.className = 'apv-msg b'; d.id = 'apv-typ';
+          d.innerHTML = '<div class="apv-av">A</div><div class="apv-bub"><div class="apv-typing"><div class="apv-td"></div><div class="apv-td"></div><div class="apv-td"></div></div></div>';
+          area.appendChild(d); area.scrollTop = area.scrollHeight;
+        } else if (!show && t) { t.remove(); }
+      }
+
+      async function apvCall(userMsg) {
+        if (loading || guestQ >= MAX_Q) return;
+        loading = true;
+        document.getElementById('apv-sbtn').disabled = true;
+        msgs.push({role:'user', content:userMsg});
+        apvTyping(true);
+        try {
+          var res = await fetch('https://api.openai.com/v1/chat/completions', {
+            method:'POST',
+            headers:{'Content-Type':'application/json','Authorization':'Bearer '+OPENAI_KEY},
+            body: JSON.stringify({model:'gpt-4o-mini',max_tokens:500,messages:[{role:'system',content:SYS},...msgs.slice(-8)]})
+          });
+          apvTyping(false);
+          if (res.ok) {
+            var data = await res.json();
+            var reply = data.choices[0].message.content;
+            msgs.push({role:'assistant',content:reply});
+            apvRender(reply, false);
+            guestQ++;
+            apvCheckAd(userMsg, reply);
+            if (guestQ >= MAX_Q) {
+              document.getElementById('apv-limit').style.display = 'block';
+              document.getElementById('apv-qbtns').style.display = 'none';
+              document.getElementById('apv-inp').disabled = true;
+              document.getElementById('apv-sbtn').disabled = true;
+            }
+          } else {
+            apvRender('⚠️ Error. Please try again.', false);
+          }
+        } catch(e) { apvTyping(false); apvRender('⚠️ Connection error.', false); }
+        loading = false;
+        if (guestQ < MAX_Q) document.getElementById('apv-sbtn').disabled = false;
+      }
+
+      function apvCheckAd(q, r) {
+        var kw = ['stake','1win','binance','bybit','bonus','rakeback','cashback'];
+        if (!kw.some(function(k){return q.toLowerCase().includes(k)||r.toLowerCase().includes(k);})) return;
+        if (Math.random() < 0.5 || pendingAds.length >= 3) return;
+        var ads = [
+          {text:'🎰 Stake - 3.5% Exclusive Rakeback! Register with our VIP code.', link:'https://stake.com/?c=7jlHcmRU'},
+          {text:'🎁 1win - 500% Welcome Bonus up to €1,500! VIP members only.', link:'https://one-vv407.com/betting?p=pgoj&sharebet=alfaportalvip'},
+          {text:'₿ Binance VIP - Reduced fees for Alfa Portal VIP members.', link:'https://www.binance.com/en/register?ref=GRO_28502_3CYHZ'},
+          {text:'📈 Bybit - Exclusive trading rewards for VIP members.', link:'https://www.bybit.com/en/invite?ref=1JXM10B'}
+        ];
+        var ad = ads[Math.floor(Math.random()*ads.length)];
+        if (!pendingAds.find(function(a){return a.text===ad.text;})) {
+          pendingAds.push(ad);
+          apvDB('POST','pending_ads',{text:ad.text,link:ad.link,status:'pending'});
+          var cnt = document.getElementById('apv-ads-count');
+          if (cnt) cnt.textContent = '('+pendingAds.length+')';
+          apvRenderAds();
+        }
+      }
+
+      window.apvSend = function() {
+        var inp = document.getElementById('apv-inp');
+        var txt = inp.value.trim();
+        if (!txt || loading || guestQ >= MAX_Q) return;
+        inp.value = '';
+        apvRender(txt, true);
+        apvCall(txt);
+      };
+
+      window.apvQ = function(txt) {
+        if (loading || guestQ >= MAX_Q) return;
+        apvRender(txt, true);
+        apvCall(txt);
+      };
+
+      function apvLoadMembers() {
+        apvDBGet('members','?order=created_at.desc').then(function(data) {
+          members = Array.isArray(data) ? data : [];
+          apvRenderMembers();
+        });
+      }
+
+      function apvRenderMembers() {
+        var list = document.getElementById('apv-mlist');
+        if (!list) return;
+        if (!members.length) { list.innerHTML = '<div class="apv-empty">No members yet.</div>'; return; }
+        list.innerHTML = members.map(function(m,i) {
+          return '<div class="apv-mitem"><span>'+m.username+'</span><div style="display:flex;gap:6px;align-items:center"><span class="apv-badge '+(m.role==='vip'?'apv-vip':'apv-free')+'">'+m.role.toUpperCase()+'</span><span style="cursor:pointer;color:#555;font-size:16px" onclick="apvDelMember(\''+m.id+'\')">×</span></div></div>';
+        }).join('');
+      }
+
+      window.apvAddMember = function() {
+        var n = document.getElementById('apv-mnew').value.trim();
+        var r = document.getElementById('apv-mrole').value;
+        if (!n) return;
+        apvDB('POST','members',{username:n,role:r}).then(function() {
+          document.getElementById('apv-mnew').value = '';
+          apvLoadMembers();
+        });
+      };
+
+      window.apvDelMember = function(id) {
+        fetch(SUPABASE_URL+'/rest/v1/members?id=eq.'+id, {
+          method:'DELETE',
+          headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
+        }).then(function(){apvLoadMembers();});
+      };
+
+      function apvLoadAds() {
+        apvDBGet('pending_ads','?status=eq.pending&order=created_at.desc').then(function(data) {
+          pendingAds = Array.isArray(data) ? data : [];
+          var cnt = document.getElementById('apv-ads-count');
+          if (cnt) cnt.textContent = pendingAds.length ? '('+pendingAds.length+')' : '';
+          apvRenderAds();
+        });
+      }
+
+      function apvRenderAds() {
+        var list = document.getElementById('apv-adlist');
+        var no = document.getElementById('apv-noad');
+        if (!list) return;
+        if (!pendingAds.length) { if(no) no.style.display='block'; list.innerHTML=''; return; }
+        if(no) no.style.display='none';
+        list.innerHTML = pendingAds.map(function(a) {
+          return '<div class="apv-aditem"><div>'+a.text+'</div><div style="font-size:10px;color:#ff9999;margin-top:4px">🔗 '+a.link+'</div><div class="apv-adbtns"><button class="apv-ok" onclick="apvApprove(\''+a.id+'\',\''+a.text.replace(/'/g,"\\'")+'\',' +'\''+a.link+'\')">✓ Approve</button><button class="apv-no" onclick="apvReject(\''+a.id+'\')">✕ Reject</button></div></div>';
+        }).join('');
+      }
+
+      window.apvApprove = function(id, text, link) {
+        fetch(SUPABASE_URL+'/rest/v1/pending_ads?id=eq.'+id, {
+          method:'PATCH',
+          headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY},
+          body: JSON.stringify({status:'approved'})
+        }).then(function(){
+          var area = document.getElementById('apv-chat');
+          var d = document.createElement('div');
+          d.innerHTML = '<div style="background:#1a1200;border:1px solid #C9A84C22;border-radius:10px;padding:10px 12px;margin:4px 0;font-size:12px;color:#e8d5a3"><div style="font-size:10px;color:#C9A84C;margin-bottom:4px;font-weight:700;letter-spacing:0.5px">📢 SPONSORED</div>'+text+'<br><a href="'+link+'" target="_blank" style="color:#C9A84C;font-size:11px;text-decoration:none">Go now →</a></div>';
+          area.appendChild(d); area.scrollTop=area.scrollHeight;
+          apvTab('chat');
+          apvLoadAds();
+        });
+      };
+
+      window.apvReject = function(id) {
+        fetch(SUPABASE_URL+'/rest/v1/pending_ads?id=eq.'+id, {
+          method:'PATCH',
+          headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY},
+          body: JSON.stringify({status:'rejected'})
+        }).then(function(){apvLoadAds();});
+      };
+    })();
+    </script>
+</body>
+</html>
