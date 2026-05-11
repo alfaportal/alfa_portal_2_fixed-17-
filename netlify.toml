@@ -1,6 +1,10 @@
+[build]
+  functions = "netlify-functions"
+  publish = "."
+
 [functions]
-  node_bundler = "zisi"
-  external_node_modules = ["nodemailer", "express", "serverless-http"]
+  node_bundler = "esbuild"
+  external_node_modules = ["nodemailer"]
 
 [[redirects]]
   from = "/api/go/stake"
