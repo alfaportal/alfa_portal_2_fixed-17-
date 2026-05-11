@@ -184,6 +184,47 @@
 
     <div id="root"></div>
 
+    <!-- VPN Button (fixed, always visible) -->
+    <div id="vpn-btn" onclick="vpnToggle()" style="position:fixed;bottom:90px;left:24px;z-index:9999;background:linear-gradient(135deg,#0a1a0a,#0d2a0d);border:1px solid #22c55e;border-radius:50px;padding:10px 16px;cursor:pointer;box-shadow:0 4px 20px #22c55e33;display:flex;align-items:center;gap:8px;font-family:'Inter',sans-serif;transition:all 0.3s;">
+      <span style="font-size:18px;">🔒</span>
+      <span style="font-size:11px;font-weight:700;color:#22c55e;letter-spacing:1px;">VPN</span>
+    </div>
+
+    <!-- VPN Popup -->
+    <div id="vpn-popup" style="display:none;position:fixed;bottom:150px;left:24px;z-index:9998;width:280px;background:#0d0d0d;border:1px solid #22c55e44;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px #00000088;font-family:'Inter',sans-serif;">
+      <div style="background:#0a1a0a;border-bottom:1px solid #22c55e33;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="color:#22c55e;font-size:12px;font-weight:700;letter-spacing:1px;">🔒 VPN ACCESS</div>
+          <div style="color:#888;font-size:10px;margin-top:2px;">Unlock all platforms</div>
+        </div>
+        <div onclick="vpnToggle()" style="width:28px;height:28px;border-radius:50%;background:#222;border:1px solid #333;color:#888;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;">×</div>
+      </div>
+      <div style="padding:14px;">
+        <div style="color:#e8d5a3;font-size:12px;line-height:1.6;margin-bottom:12px;">
+          Some platforms (1win, Stake) may be restricted in your country.<br><br>
+          Use <strong style="color:#22c55e;">NordVPN</strong> to access all features and register through our portal.
+        </div>
+        <a href="https://nordvpn.com" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;background:#22c55e;color:#000;font-size:13px;font-weight:700;padding:10px;border-radius:8px;text-decoration:none;letter-spacing:0.5px;">
+          🔒 Get NordVPN — Access All Platforms
+        </a>
+        <div style="color:#555;font-size:10px;text-align:center;margin-top:8px;">Free trial available on mobile</div>
+      </div>
+    </div>
+
+    <script>
+      window.vpnToggle = function() {
+        var popup = document.getElementById('vpn-popup');
+        popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+      };
+      document.addEventListener('click', function(e) {
+        var btn = document.getElementById('vpn-btn');
+        var popup = document.getElementById('vpn-popup');
+        if (!btn.contains(e.target) && !popup.contains(e.target)) {
+          popup.style.display = 'none';
+        }
+      });
+    </script>
+
     <!-- Widget Button -->
     <div id="apv-btn" onclick="apvToggle()">
       <div id="apv-btn-av">🏆</div>
