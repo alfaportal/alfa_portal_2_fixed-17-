@@ -1,3 +1,5 @@
+const https = require('https');
+
 exports.handler = async function(event) {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
@@ -5,22 +7,36 @@ exports.handler = async function(event) {
 
   try {
     const body = JSON.parse(event.body);
-    
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + process.env.OPENAI_KEY
-      },
-      body: JSON.stringify(body)
+    const apiKey = process.env.OPENAI_KEY;
+
+    const result = await new Promise((resolve, reject) => {
+      const data = JSON.stringify(body);
+      const options = {
+        hostname: 'api.openai.com',
+        path: '/v1/chat/completions',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + apiKey,
+          'Content-Length': Buffer.byteLength(data)
+        }
+      };
+
+      const req = https.request(options, (res) => {
+        let responseData = '';
+        res.on('data', (chunk) => { responseData += chunk; });
+        res.on('end', () => { resolve(responseData); });
+      });
+
+      req.on('error', reject);
+      req.write(data);
+      req.end();
     });
 
-    const data = await response.json();
-    
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      body: result
     };
   } catch(e) {
     return {
