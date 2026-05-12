@@ -289,7 +289,7 @@
     (function() {
       var SUPABASE_URL = 'https://rzpiurlabidtvrcumsta.supabase.co';
       var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ6cGl1cmxhYmlkdHZyY3Vtc3RhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0MzEwNjIsImV4cCI6MjA5NDAwNzA2Mn0.4djiLTm9a2L2ehkrmhNxODORLToteJjCcu4_pSk0o0o';
-      var OPENAI_KEY = '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';
+      // OpenAI key stored securely in Netlify
       var ADMIN_CODE = 'alfavip2024';
 
       var SYS = 'You are the VIP Assistant of Alfa Portal VIP - a premium casino and sports betting platform.\n\nLANGUAGE RULE:\n- First welcome message: ALWAYS in English\n- All replies after: match the visitor\'s language exactly\n\nPARTNERS (NEVER share affiliate codes or tracking links - just mention the platform name and bonuses):\n- Stake: 3.5% exclusive rakeback\n- 1win: 500% welcome bonus up to \u20ac1500\n- Binance: VIP crypto exchange with reduced fees\n- Bybit: trading rewards program\n- Roobet: 20% daily cashback\n- BC.Game: 300% deposit match\n- Rollbit: 15% instant rakeback + futures & NFTs\n- GGPoker: VIP poker program\n\nRULES:\n1. Be friendly, professional, enthusiastic\n2. NEVER share affiliate codes, referral links or tracking parameters\n3. When recommending a platform just say "you can register through our portal" - DO NOT share any links or codes\n4. Every person who registers through Alfa Portal VIP automatically becomes a member and gets the VIP benefits\n5. Short clear replies with emojis\n6. Non-members: max 5 questions then say to register at alfaportal-vip.com\n7. Never mention codes like c=, ref=, btag=, sharebet= or any tracking parameters';
@@ -401,9 +401,9 @@
         msgs.push({role:'user', content:userMsg});
         apvTyping(true);
         try {
-          var res = await fetch('https://api.openai.com/v1/chat/completions', {
+          var res = await fetch('/.netlify/functions/chat', {
             method:'POST',
-            headers:{'Content-Type':'application/json','Authorization':'Bearer '+OPENAI_KEY},
+            headers:{'Content-Type':'application/json'},
             body: JSON.stringify({model:'gpt-4o-mini',max_tokens:500,messages:[{role:'system',content:SYS},...msgs.slice(-8)]})
           });
           apvTyping(false);
