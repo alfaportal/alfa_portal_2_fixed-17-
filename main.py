@@ -1,0 +1,1 @@
+echo. > main.pyecho. > requirements.txtnotepad main.py
