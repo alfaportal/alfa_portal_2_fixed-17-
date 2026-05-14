@@ -52,7 +52,7 @@
     <!-- VIP Assistant Widget -->
     <style>
       #apv-btn {
-        position: fixed; bottom: 24px; right: 24px; z-index: 9999; margin-right: 0;
+        position: fixed; bottom: 90px; left: 24px; z-index: 9999; margin-right: 0;
         display: flex; align-items: center; gap: 10px;
         background: linear-gradient(135deg, #1a1400, #2a1e00);
         border: 1px solid #C9A84C; border-radius: 50px;
@@ -65,7 +65,7 @@
       #apv-btn-lbl { font-size:12px;font-weight:700;color:#C9A84C;letter-spacing:1px;text-transform:uppercase; }
       #apv-btn-dot { width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;margin-left:4px; }
       #apv-win {
-        position:fixed;bottom:90px;right:24px;z-index:9998;
+        position:fixed;bottom:160px;left:24px;z-index:9998;
         width:360px;max-height:580px;
         background:#0d0d0d;border:1px solid #C9A84C44;
         border-radius:16px;overflow:hidden;
@@ -154,15 +154,15 @@
   <body>
     <div id="root"></div>
 
-    <!-- VPN Button (fixed, small, below assistant, only for restricted countries) -->
-    <div id="vpn-btn" onclick="vpnToggle()" style="display:none;position:fixed;bottom:90px;right:24px;z-index:9999;align-items:center;gap:10px;background:linear-gradient(135deg,#0a1a0a,#0d2a0d);border:1px solid #22c55e;border-radius:50px;padding:10px 18px 10px 10px;cursor:pointer;box-shadow:0 4px 20px #22c55e33;transition:all 0.3s;font-family:'Inter',sans-serif;">
+    <!-- VPN Button (fixed, LEFT side, bottom) -->
+    <div id="vpn-btn" onclick="vpnToggle()" style="display:none;position:fixed;bottom:24px;left:24px;z-index:9999;align-items:center;gap:10px;background:linear-gradient(135deg,#0a1a0a,#0d2a0d);border:1px solid #22c55e;border-radius:50px;padding:10px 18px 10px 10px;cursor:pointer;box-shadow:0 4px 20px #22c55e33;transition:all 0.3s;font-family:'Inter',sans-serif;">
       <div style="width:38px;height:38px;border-radius:50%;background:radial-gradient(circle at 40% 40%,#4ade80,#15803d);border:2px solid #22c55e;display:flex;align-items:center;justify-content:center;font-size:16px;">🔒</div>
       <div style="font-size:12px;font-weight:700;color:#22c55e;letter-spacing:1px;text-transform:uppercase;">VPN</div>
       <div style="width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px #22c55e;margin-left:4px;"></div>
     </div>
 
     <!-- VPN Popup -->
-    <div id="vpn-popup" style="display:none;position:fixed;bottom:160px;right:24px;z-index:9998;width:260px;background:#0d0d0d;border:1px solid #22c55e44;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px #00000088;font-family:'Inter',sans-serif;">
+    <div id="vpn-popup" style="display:none;position:fixed;bottom:90px;left:24px;z-index:9998;width:260px;background:#0d0d0d;border:1px solid #22c55e44;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px #00000088;font-family:'Inter',sans-serif;">
       <div style="background:#0a1a0a;border-bottom:1px solid #22c55e33;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;">
         <div>
           <div style="color:#22c55e;font-size:11px;font-weight:700;letter-spacing:1px;">🔒 VPN ACCESS</div>
@@ -284,6 +284,281 @@
         </div>
       </div>
     </div>
+
+    <!-- ===== EMAIL ICON INJECTION ===== -->
+    <script>
+    (function() {
+      var EMAIL = 'alfaportal.office@outlook.com';
+
+      function findAndClickContact() {
+        // Try to find contact button/link inside the React app
+        var all = document.querySelectorAll('a, button');
+        for (var i = 0; i < all.length; i++) {
+          var txt = all[i].textContent.trim().toLowerCase();
+          if (txt === 'contact' || txt === 'contatto' || txt === 'kontakt' || txt === 'contacto' || txt === 'contato' || txt === 'contact now' || txt === 'kontakti' || txt === 'eposta' || txt === 'iletişim') {
+            all[i].click();
+            return;
+          }
+        }
+        // Fallback: scroll to contact section
+        var sections = document.querySelectorAll('section, div[id]');
+        for (var j = 0; j < sections.length; j++) {
+          var id = (sections[j].id || '').toLowerCase();
+          if (id.includes('contact') || id.includes('kontakt')) {
+            sections[j].scrollIntoView({ behavior: 'smooth' });
+            return;
+          }
+        }
+        // Last fallback: open mailto
+        window.location.href = 'mailto:' + EMAIL;
+      }
+
+      function injectEmail() {
+        var allSpans = document.querySelectorAll('span, p, div');
+        var socialLabel = null;
+        for (var i = 0; i < allSpans.length; i++) {
+          var t = allSpans[i].textContent.trim();
+          if (t === 'TELEGRAM' || t === 'INSTAGRAM' || t === 'WHATSAPP') {
+            socialLabel = allSpans[i];
+            break;
+          }
+        }
+        if (!socialLabel) return false;
+
+        var anchor = socialLabel.closest('a');
+        if (!anchor) return false;
+        var container = anchor.parentNode;
+        if (!container) return false;
+        if (container.querySelector('[data-apv-email]')) return true;
+
+        // Clone structure from existing icon
+        var clone = anchor.cloneNode(true);
+        clone.removeAttribute('href');
+        clone.style.cursor = 'pointer';
+        clone.setAttribute('data-apv-email', '1');
+        clone.addEventListener('click', function(e) {
+          e.preventDefault();
+          findAndClickContact();
+        });
+
+        // Replace SVG with email icon
+        var svgEl = clone.querySelector('svg');
+        if (svgEl) {
+          svgEl.setAttribute('viewBox', '0 0 24 24');
+          svgEl.setAttribute('stroke', 'currentColor');
+          svgEl.setAttribute('fill', 'none');
+          svgEl.setAttribute('stroke-width', '1.5');
+          svgEl.innerHTML = '<path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" /><path d="M3 7l9 6l9 -6" />';
+        }
+
+        // Update label
+        var labelSpans = clone.querySelectorAll('span, p');
+        labelSpans.forEach(function(s) {
+          if (s.textContent.trim().length > 0 && s.children.length === 0) {
+            s.textContent = 'EMAIL';
+          }
+        });
+
+        container.appendChild(clone);
+        return true;
+      }
+
+      var tries = 0;
+      var t = setInterval(function() {
+        tries++;
+        if (injectEmail() || tries > 40) clearInterval(t);
+      }, 300);
+    })();
+    </script>
+
+
+    <div id="compliance-overlay" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.82);align-items:center;justify-content:center;font-family:'Inter',sans-serif;">
+      <div style="background:#111;border:1px solid #C9A84C;border-radius:16px;padding:32px 28px;max-width:420px;width:90%;text-align:center;box-shadow:0 8px 60px #000;">
+        <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#C9A84C,#8a6f2e);display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 16px;">🔞</div>
+        <div style="font-size:13px;font-weight:700;color:#C9A84C;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">Age Verification</div>
+        <div style="font-size:15px;font-weight:600;color:#e8d5a3;line-height:1.6;margin-bottom:10px;">Please confirm that you are over 18 years old<br>(or 21 years for Greece/Estonia).</div>
+        <div style="font-size:12px;color:#888;line-height:1.6;margin-bottom:24px;">Gambling can be addictive. Play responsibly.<br>This site is for entertainment purposes only.</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <button id="compliance-yes" style="background:linear-gradient(135deg,#C9A84C,#8a6f2e);color:#000;border:none;border-radius:10px;padding:13px 24px;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:0.5px;">✓ I am 18+ years old — ENTER</button>
+          <button id="compliance-no" style="background:transparent;color:#555;border:1px solid #333;border-radius:10px;padding:10px 24px;font-size:12px;cursor:pointer;">I am under 18 — Leave</button>
+        </div>
+        <div style="margin-top:16px;font-size:10px;color:#444;line-height:1.6;">
+          🔞 18+ &nbsp;|&nbsp; Play Responsibly &nbsp;|&nbsp; <a href="#" onclick="document.getElementById('compliance-overlay').style.display='none'" style="color:#C9A84C;text-decoration:none;">Terms & Rules</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== COMPLIANCE FOOTER INJECTION ===== -->
+    <div id="compliance-footer" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9990;background:#0a0a0a;border-top:1px solid #C9A84C33;padding:8px 20px;font-family:'Inter',sans-serif;">
+      <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;flex-wrap:wrap;gap:10px;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <span id="cf-badge" style="background:#1a0000;color:#ef4444;border:1px solid #ef444433;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;flex-shrink:0;">18+</span>
+          <span id="cf-text" style="font-size:11px;color:#666;line-height:1.5;max-width:600px;">Gambling can be addictive. Play responsibly. Persons under 18 are not permitted to participate in gambling activities.</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;flex-shrink:0;">
+          <a id="cf-helplink" href="https://stödlinjen.se" target="_blank" style="display:none;font-size:11px;color:#C9A84C;text-decoration:none;">stödlinjen.se</a>
+          <a href="#terms" style="font-size:11px;color:#555;text-decoration:none;">Terms & Rules</a>
+          <button onclick="document.getElementById('compliance-footer').style.display='none'" style="background:transparent;border:none;color:#333;font-size:16px;cursor:pointer;padding:0 4px;">×</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== NEW LANGUAGES PATCH ===== -->
+    <script>
+    (function() {
+      // Wait for React to mount the language dropdown, then patch it
+      var newLangs = [
+        { code: 'HR', name: 'HRVATSKI',  flag: '🇭🇷' },
+        { code: 'RS', name: 'SRPSKI',    flag: '🇷🇸' },
+        { code: 'GR', name: 'ΕΛΛΗΝΙΚΆ', flag: '🇬🇷' },
+        { code: 'PL', name: 'POLSKI',    flag: '🇵🇱' }
+      ];
+
+      function patchDropdown() {
+        // Find existing language items by looking for the GB/IT style items
+        var items = document.querySelectorAll('[class*="language"] li, [class*="lang"] li, [class*="Language"] li');
+        if (!items.length) {
+          // Try finding by content pattern (XX + LANGUAGE NAME)
+          var allLi = document.querySelectorAll('li');
+          var langLi = Array.from(allLi).filter(function(li) {
+            return li.textContent.trim().match(/^(GB|DE|FR|ES|IT|PT|CZ|TR|AE|AL)\s/);
+          });
+          if (langLi.length) {
+            items = langLi;
+          }
+        }
+        if (!items.length) return false;
+
+        var parent = items[0].parentNode;
+        // Check if we already added these
+        if (parent.querySelector('[data-apv-lang="HR"]')) return true;
+
+        newLangs.forEach(function(lang) {
+          // Clone style from existing item
+          var clone = items[0].cloneNode(true);
+          // Update text content — preserve structure if there are spans
+          var spans = clone.querySelectorAll('span');
+          if (spans.length >= 2) {
+            spans[0].textContent = lang.code;
+            spans[1].textContent = lang.name;
+          } else {
+            clone.textContent = lang.flag + ' ' + lang.code + ' ' + lang.name;
+          }
+          clone.setAttribute('data-apv-lang', lang.code);
+          // Remove any active/selected class
+          clone.classList.remove(...Array.from(clone.classList).filter(function(c) { return c.includes('active') || c.includes('selected') || c.includes('current'); }));
+          parent.appendChild(clone);
+        });
+        return true;
+      }
+
+      // Try patching every 300ms for up to 10 seconds
+      var attempts = 0;
+      var patchTimer = setInterval(function() {
+        attempts++;
+        if (patchDropdown() || attempts > 33) clearInterval(patchTimer);
+      }, 300);
+    })();
+    </script>
+
+    <!-- Compliance logic -->
+    <script>
+    (function() {
+      // Compliance footer texts per language
+      var complianceTexts = {
+        'en': { badge: '18+', text: 'Gambling can be addictive. Play responsibly. Persons under 18 are not permitted to participate in gambling activities.', sweden: false },
+        'de': { badge: '18+', text: 'Glücksspiel kann süchtig machen. Spielen Sie verantwortungsbewusst. Personen unter 18 Jahren ist die Teilnahme an Glücksspielen nicht gestattet.', sweden: false },
+        'fr': { badge: '18+', text: 'Les jeux d\'argent peuvent créer une dépendance. Jouez de manière responsable. Les personnes de moins de 18 ans ne sont pas autorisées.', sweden: false },
+        'es': { badge: '18+', text: 'Juega con responsabilidad.', sweden: false },
+        'it': { badge: '18+', text: 'Il gioco d\'azzardo può creare dipendenza. Gioca responsabilmente.', sweden: false },
+        'pt': { badge: '18+', text: 'O jogo pode criar dependência. Jogue com responsabilidade. Proibido a menores de 18 anos.', sweden: false },
+        'cz': { badge: '18+', text: 'Hazardní hry mohou způsobit závislost. Hrajte zodpovědně. Osoby mladší 18 let nesmí hrát.', sweden: false },
+        'tr': { badge: '18+', text: 'Kumar bağımlılık yapabilir. Sorumlu oynayın. 18 yaşından küçüklerin katılımı yasaktır.', sweden: false },
+        'ae': { badge: '18+', text: 'المقامرة قد تسبب الإدمان. العب بمسؤولية. لا يُسمح للأشخاص دون 18 عاماً.', sweden: false },
+        'al': { badge: '18+', text: 'Bixhozi mund të shkaktojë varësi. Luani me përgjegjësi. Personat nën 18 vjeç nuk lejohen.', sweden: false },
+        'hr': { badge: '18+', text: 'Igre na sreću mogu uzrokovati ovisnost. Igraj odgovorno. Osobama mlađim od 18 godina nije dozvoljeno sudjelovanje u igrama na sreću.', sweden: false },
+        'rs': { badge: '18+', text: 'Igre na sreću mogu uzrokovati zavisnost. Igraj odgovorno. Osobama mlađim od 18 godina nije dozvoljeno učestvovanje u igrama na sreću.', sweden: false },
+        'gr': { badge: '21+', text: '21+ | Ρυθμιστής ΕΕΕΠ | ΚΕΘΕΑ: 210 9237777 | Παίξε Υπεύθυνα', sweden: false },
+        'pl': { badge: '18+', text: 'Hazard może uzależniać. Graj odpowiedzialnie. Osoby poniżej 18 lat nie mogą uczestniczyć w grach hazardowych.', sweden: false },
+        'se': { badge: '18+', text: 'Spel kan vara beroendeframkallande. Spela ansvarsfullt. Personer under 18 år är inte tillåtna att delta i spel.', sweden: true }
+      };
+
+      function updateComplianceFooter(langCode) {
+        var key = (langCode || 'en').toLowerCase();
+        var data = complianceTexts[key] || complianceTexts['en'];
+        document.getElementById('cf-badge').textContent = data.badge;
+        document.getElementById('cf-text').textContent = data.text;
+        document.getElementById('cf-helplink').style.display = data.sweden ? 'inline' : 'none';
+        // Serbia: no "Casino" word — already handled by using generic text
+      }
+
+      // Watch for language changes in React app
+      var currentLang = 'en';
+      function detectLangChange() {
+        // Check URL, html[lang], or look for active language indicator
+        var htmlLang = document.documentElement.lang || 'en';
+        var activeLangEl = document.querySelector('[class*="lang"][class*="active"] [class*="code"], [class*="language"][class*="active"] span:first-child');
+        var detected = 'en';
+        if (activeLangEl) {
+          detected = activeLangEl.textContent.trim().toLowerCase();
+        } else {
+          detected = htmlLang.split('-')[0].toLowerCase();
+        }
+        if (detected !== currentLang) {
+          currentLang = detected;
+          updateComplianceFooter(currentLang);
+        }
+      }
+
+      // Also patch: intercept clicks on language dropdown items
+      document.addEventListener('click', function(e) {
+        var li = e.target.closest('li[data-apv-lang]');
+        if (li) {
+          updateComplianceFooter(li.getAttribute('data-apv-lang'));
+          return;
+        }
+        // Try detecting from clicked language item in React UI
+        var langItem = e.target.closest('li');
+        if (langItem && langItem.parentNode) {
+          var spans = langItem.querySelectorAll('span');
+          if (spans.length) {
+            var code = spans[0].textContent.trim().toLowerCase();
+            if (complianceTexts[code]) {
+              currentLang = code;
+              updateComplianceFooter(code);
+            }
+          }
+        }
+      });
+
+      setInterval(detectLangChange, 1000);
+
+      // Show compliance footer after popup dismissed
+      window._showComplianceFooter = function() {
+        document.getElementById('compliance-footer').style.display = 'block';
+        updateComplianceFooter('en');
+      };
+
+      // ===== POPUP LOGIC =====
+      var overlay = document.getElementById('compliance-overlay');
+      var dismissed = sessionStorage.getItem('apv_compliance_ok');
+      if (!dismissed) {
+        overlay.style.display = 'flex';
+      } else {
+        window._showComplianceFooter();
+      }
+
+      document.getElementById('compliance-yes').addEventListener('click', function() {
+        overlay.style.display = 'none';
+        sessionStorage.setItem('apv_compliance_ok', '1');
+        window._showComplianceFooter();
+      });
+
+      document.getElementById('compliance-no').addEventListener('click', function() {
+        window.location.href = 'https://www.google.com';
+      });
+    })();
+    </script>
 
     <script>
     (function() {
