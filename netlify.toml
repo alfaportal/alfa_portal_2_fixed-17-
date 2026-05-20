@@ -1,0 +1,66 @@
+[build]
+  functions = "netlify-functions"
+  publish = "."
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["nodemailer"]
+
+[[redirects]]
+  from = "/api/go/stake"
+  to = "https://stake.com/?c=7jlHcmRU"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/api/go/1win"
+  to = "https://one-vv407.com/betting?p=pgoj&sharebet=alfaportalvip"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/api/go/roobet"
+  to = "https://roobet.com/"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/api/go/bcgame"
+  to = "https://bc.game/"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/api/go/rollbit"
+  to = "https://rollbit.com/"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/api/go/binance"
+  to = "https://www.binance.com/en/register?ref=GRO_28502_3CYHZ"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/api/go/bybit"
+  to = "https://www.bybit.com/en/invite?ref=1JXM10B"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/api/go/ggpoker"
+  to = "https://ggpoker.com/?btag=ALFAPORTALVIP"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
