@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALFA PORTAL VIP</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap');
+:root{
+  --gold:#c9a84c;--gold2:#f0d080;--gold3:#7a5c1e;
+  --bg:#080808;--bg2:#0f0f0f;--bg3:#161616;
+  --border:#2a2a2a;--borderg:rgba(201,168,76,0.3);
+  --text:#e8e8e8;--text2:#888;
+  --red:#c0392b;--green:#2ecc71;--blue:#3498db;
+  --purple:#9b59b6;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;}
+
+/* SCREENS */
+.SC{display:none!important;}
+.SC.ON{display:block!important;}
+#scLogin.ON{display:flex!important;}
+#scLogin{min-height:100vh;align-items:center;justify-content:center;padding:20px;}
+
+/* LOGIN */
+.lbox{background:var(--bg2);border:1px solid var(--borderg);padding:40px 44px;width:400px;max-width:95vw;position:relative;}
+.lbox::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.llogo{text-align:center;margin-bottom:26px;}
+.llogo .br{font-size:22px;font-weight:700;letter-spacing:3px;background:linear-gradient(135deg,#c9a84c,#f0d080);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.llogo .sb{font-size:11px;letter-spacing:4px;color:var(--text2);margin-top:4px;}
+.rtabs{display:flex;border:1px solid var(--border);margin-bottom:22px;}
+.rtab{flex:1;padding:10px;background:none;border:none;border-bottom:2px solid transparent;color:var(--text2);font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;letter-spacing:2px;cursor:pointer;}
+.rtab.ON{background:rgba(201,168,76,0.1);color:var(--gold);border-bottom-color:var(--gold);}
+.lf{margin-bottom:14px;}
+.lf label{display:block;font-size:10px;letter-spacing:2px;color:var(--text2);margin-bottom:6px;text-transform:uppercase;}
+.lf input{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:11px 14px;font-family:'Share Tech Mono',monospace;font-size:13px;outline:none;}
+.lf input:focus{border-color:var(--gold);}
+.lbtn{width:100%;padding:14px;background:linear-gradient(135deg,var(--gold3),var(--gold),var(--gold2));border:none;color:#000;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;letter-spacing:3px;cursor:pointer;margin-top:6px;}
+.lbtn:hover{opacity:0.85;}
+.lerr{color:var(--red);font-size:12px;text-align:center;margin-top:10px;display:none;}
+
+/* TOPBAR */
+.topbar{background:var(--bg2);border-bottom:1px solid var(--borderg);padding:0 18px;height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:8px;}
+.tbrand{font-size:14px;font-weight:700;letter-spacing:2px;background:linear-gradient(135deg,#c9a84c,#f0d080);-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap;}
+.tright{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.trole{font-size:10px;letter-spacing:2px;color:var(--text2);border:1px solid var(--border);padding:4px 10px;white-space:nowrap;}
+.trole.super{border-color:var(--purple);color:var(--purple);}
+.trole.sub{border-color:var(--blue);color:var(--blue);}
+.tclock{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text2);}
+.tbtn{background:transparent;border:1px solid var(--border);color:var(--text2);padding:6px 12px;font-family:'Rajdhani',sans-serif;font-size:11px;letter-spacing:1px;cursor:pointer;white-space:nowrap;}
+.tbtn:hover,.tbtn.gold{border-color:var(--gold);color:var(--gold);}
+
+/* LANG SELECTOR - FIXED POSITION */
+.lwrap{position:relative;}
+.lbtnL{background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);color:var(--gold);padding:6px 12px;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;}
+.langDD{position:fixed;top:58px;right:10px;background:var(--bg2);border:1px solid var(--borderg);min-width:180px;z-index:999999;display:none;max-height:320px;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,0.9);}
+.langDD.ON{display:block;}
+.lopt{padding:10px 16px;cursor:pointer;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;}
+.lopt:hover{background:rgba(201,168,76,0.12);color:var(--gold);}
+
+/* MAIN */
+.main{padding:20px;max-width:1400px;margin:0 auto;}
+
+/* TABS */
+.tabs{display:flex;margin-bottom:18px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+.tab{background:none;border:none;border-bottom:2px solid transparent;color:var(--text2);padding:11px 16px;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:600;letter-spacing:2px;cursor:pointer;margin-bottom:-1px;text-transform:uppercase;}
+.tab.ON{color:var(--gold);border-bottom-color:var(--gold);}
+.tp{display:none;}
+.tp.ON{display:block;}
+
+/* STATS */
+.srow{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;}
+.scard{background:var(--bg2);border:1px solid var(--border);padding:18px 20px;}
+.slbl{font-size:10px;letter-spacing:3px;color:var(--text2);text-transform:uppercase;margin-bottom:8px;}
+.sval{font-size:24px;font-weight:700;color:var(--gold2);font-family:'Share Tech Mono',monospace;}
+.sval.g{color:var(--green);}
+.ssub{font-size:11px;color:var(--text2);margin-top:4px;}
+
+/* SECTION HDR */
+.shdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;}
+.stitle{font-size:13px;font-weight:700;letter-spacing:3px;color:var(--gold);text-transform:uppercase;}
+
+/* LEVEL BADGE */
+.lvl{padding:2px 8px;font-size:10px;font-weight:700;display:inline-block;margin-left:6px;}
+.lvl.super{background:rgba(155,89,182,0.15);color:var(--purple);border:1px solid rgba(155,89,182,0.3);}
+.lvl.sub{background:rgba(52,152,219,0.15);color:var(--blue);border:1px solid rgba(52,152,219,0.3);}
+
+/* BUTTONS */
+.btn{background:linear-gradient(135deg,var(--gold3),var(--gold));border:none;color:#000;padding:9px 18px;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer;white-space:nowrap;}
+.btn:hover{opacity:0.8;}
+.btn.sec{background:transparent;border:1px solid var(--gold);color:var(--gold);}
+.btn.red{background:transparent;border:1px solid var(--red);color:var(--red);}
+.btn.blue{background:transparent;border:1px solid var(--blue);color:var(--blue);}
+.btn.green{background:transparent;border:1px solid var(--green);color:var(--green);}
+.btn.purple{background:transparent;border:1px solid var(--purple);color:var(--purple);}
+.btn.xs{padding:4px 10px;font-size:10px;}
+.btn.sm{padding:6px 13px;font-size:11px;}
+
+/* TABLE */
+.twrap{background:var(--bg2);border:1px solid var(--border);overflow-x:auto;margin-bottom:22px;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+thead tr{background:var(--bg3);border-bottom:1px solid var(--borderg);}
+thead th{padding:11px 13px;text-align:left;font-size:10px;letter-spacing:2px;color:var(--text2);text-transform:uppercase;white-space:nowrap;}
+tbody tr{border-bottom:1px solid var(--border);}
+tbody tr:hover{background:var(--bg3);}
+tbody tr:last-child{border-bottom:none;}
+tbody td{padding:10px 13px;vertical-align:middle;}
+.mono{font-family:'Share Tech Mono',monospace;}
+.gcode{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--gold);background:rgba(201,168,76,0.08);padding:3px 8px;border:1px solid rgba(201,168,76,0.2);cursor:pointer;}
+.badge{padding:3px 9px;font-size:10px;font-weight:700;display:inline-block;}
+.badge.active,.badge.won{background:rgba(39,174,96,0.15);color:var(--green);border:1px solid rgba(39,174,96,0.3);}
+.badge.inactive,.badge.lost{background:rgba(192,57,43,0.15);color:#e74c3c;border:1px solid rgba(192,57,43,0.3);}
+.badge.pending,.badge.open{background:rgba(41,128,185,0.15);color:var(--blue);border:1px solid rgba(41,128,185,0.3);}
+.profit{font-family:'Share Tech Mono',monospace;color:var(--green);font-weight:600;}
+.acell{display:flex;gap:5px;align-items:center;flex-wrap:wrap;}
+.empt{text-align:center;padding:40px;color:var(--text2);font-size:13px;}
+
+/* MODAL */
+.mov{position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:500;display:none;align-items:center;justify-content:center;padding:16px;}
+.mov.ON{display:flex;}
+.mbox{background:var(--bg2);border:1px solid var(--borderg);padding:32px 36px;width:500px;max-width:100%;position:relative;max-height:90vh;overflow-y:auto;}
+.mbox::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.mtitle{font-size:15px;font-weight:700;letter-spacing:3px;color:var(--gold);margin-bottom:22px;text-transform:uppercase;}
+.fr{margin-bottom:14px;}
+.fr label{display:block;font-size:10px;letter-spacing:2px;color:var(--text2);margin-bottom:6px;text-transform:uppercase;}
+.fr input,.fr select,.fr textarea{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:10px 13px;font-family:'Rajdhani',sans-serif;font-size:13px;outline:none;}
+.fr input:focus,.fr select:focus,.fr textarea:focus{border-color:var(--gold);}
+.fr select option{background:var(--bg3);}
+.fr input[readonly]{color:var(--gold);font-family:'Share Tech Mono',monospace;}
+.fr textarea{resize:vertical;min-height:65px;}
+.frrow{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.mbtns{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;}
+.mx{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--text2);font-size:18px;cursor:pointer;}
+.mx:hover{color:var(--gold);}
+
+/* SHARE CARD */
+.scard-share{background:var(--bg3);border:1px solid var(--borderg);padding:22px;}
+.scard-share .row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);}
+.scard-share .row:last-child{border-bottom:none;}
+.scard-share .row .k{font-size:10px;letter-spacing:2px;color:var(--text2);text-transform:uppercase;}
+.scard-share .row .v{font-size:15px;font-weight:700;color:var(--text);}
+.scard-share .row .v.gold{color:var(--gold);font-family:'Share Tech Mono',monospace;font-size:18px;letter-spacing:2px;}
+.scard-share .row .v.green{color:var(--green);}
+.share-inst{background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.15);padding:14px;margin-top:14px;font-size:12px;color:var(--text2);line-height:2;}
+
+/* LIVE */
+.livedot{display:inline-block;width:8px;height:8px;background:var(--green);border-radius:50%;margin-right:6px;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.livecard{background:var(--bg2);border:1px solid var(--borderg);padding:18px 22px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+
+/* SEARCH */
+.sbar{display:flex;gap:8px;margin-bottom:12px;}
+.sbar input{flex:1;background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:9px 13px;font-family:'Rajdhani',sans-serif;font-size:13px;outline:none;}
+.sbar input:focus{border-color:var(--gold);}
+.sbar input::placeholder{color:var(--text2);}
+
+/* TOAST */
+.toast{position:fixed;bottom:22px;right:22px;background:var(--bg3);border:1px solid var(--gold);border-left:3px solid var(--gold);padding:12px 18px;font-size:13px;color:var(--text);z-index:99999;opacity:0;transform:translateY(8px);transition:all 0.3s;pointer-events:none;min-width:240px;}
+.toast.ON{opacity:1;transform:translateY(0);}
+
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border);}
+@media(max-width:800px){.srow{grid-template-columns:1fr 1fr;}.main{padding:12px;}.frrow{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="scLogin" class="SC ON">
+  <div class="lbox">
+    <div class="llogo">
+      <div class="br">ALFA PORTAL VIP</div>
+      <div class="sb">MANAGEMENT SYSTEM</div>
+    </div>
+    <div class="rtabs">
+      <button class="rtab ON" id="rtAdmin" onclick="setRole('admin')">👑 ADMIN</button>
+      <button class="rtab" id="rtAgent" onclick="setRole('agent')">👤 AGENT</button>
+    </div>
+    <div class="lf" id="lfLink">
+      <label>SECRET CODE</label>
+      <input type="text" id="inpLink" placeholder="alfa-xxxxx" autocomplete="off">
+    </div>
+    <div class="lf">
+      <label id="lblPass">PASSWORD</label>
+      <input type="password" id="inpPass" placeholder="••••••••" autocomplete="off" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="lbtn" onclick="doLogin()">LOGIN — ACCESS</button>
+    <div class="lerr" id="loginErr">⚠ Wrong code or password</div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="scAdmin" class="SC">
+  <div class="topbar">
+    <div class="tbrand">ALFA PORTAL VIP — ADMIN</div>
+    <div class="tright">
+      <span class="trole">👑 ADMIN</span>
+      <span class="tclock" id="clkA"></span>
+      <button class="tbtn gold" onclick="openMain()">🌐 MAIN PAGE</button>
+      <button class="tbtn" onclick="doLogout()">EXIT ✕</button>
+    </div>
+  </div>
+  <div class="main">
+    <div class="tabs">
+      <button class="tab ON" onclick="switchTab(this,'tpAdminAgents')">SUPER-AGENTS</button>
+      <button class="tab" onclick="switchTab(this,'tpAdminAll')">ALL AGENTS</button>
+      <button class="tab" onclick="switchTab(this,'tpAdminPlayers')">ALL PLAYERS</button>
+      <button class="tab" onclick="switchTab(this,'tpAdminBets')">ALL BETS</button>
+      <button class="tab" onclick="switchTab(this,'tpAdminStats');renderAdminStats()">STATISTICS</button>
+      <button class="tab" onclick="switchTab(this,'tpAdminSettings')">SETTINGS</button>
+    </div>
+
+    <div class="tp ON" id="tpAdminAgents">
+      <div class="srow">
+        <div class="scard"><div class="slbl">Super-Agents</div><div class="sval" id="aSA">0</div></div>
+        <div class="scard"><div class="slbl">Sub-Agents Total</div><div class="sval" id="aSub">0</div></div>
+        <div class="scard"><div class="slbl">Total Players</div><div class="sval" id="aTP">0</div></div>
+        <div class="scard"><div class="slbl">Commission €</div><div class="sval g" id="aTC">€0</div></div>
+      </div>
+      <div class="shdr">
+        <div class="stitle">SUPER-AGENTS <span class="lvl super">LEVEL 1</span></div>
+        <button class="btn" onclick="openMAgent(null,'super',null)">+ ADD SUPER-AGENT</button>
+      </div>
+      <div class="sbar"><input type="text" placeholder="Search..." oninput="renderSuperAgents(this.value)"></div>
+      <div class="twrap"><table>
+        <thead><tr><th>#</th><th>NAME</th><th>CODE</th><th>PASSWORD</th><th>SUB-AGENTS</th><th>PLAYERS</th><th>COMM%</th><th>COMM€</th><th>STATUS</th><th>ACTIONS</th></tr></thead>
+        <tbody id="tbSA"></tbody>
+      </table></div>
+    </div>
+
+    <div class="tp" id="tpAdminAll">
+      <div class="shdr"><div class="stitle">ALL AGENTS (ALL LEVELS)</div></div>
+      <div class="sbar"><input type="text" placeholder="Search..." oninput="renderAllAgents(this.value)"></div>
+      <div class="twrap"><table>
+        <thead><tr><th>#</th><th>NAME</th><th>LEVEL</th><th>CODE</th><th>PARENT</th><th>PLAYERS</th><th>COMM%</th><th>STATUS</th><th>ACTIONS</th></tr></thead>
+        <tbody id="tbAllA"></tbody>
+      </table></div>
+    </div>
+
+    <div class="tp" id="tpAdminPlayers">
+      <div class="shdr"><div class="stitle">ALL PLAYERS</div></div>
+      <div class="sbar"><input type="text" placeholder="Search..." oninput="renderAllPlayers(this.value)"></div>
+      <div class="twrap"><table>
+        <thead><tr><th>#</th><th>NAME</th><th>AGENT</th><th>SUPER-AGENT</th><th>PLATFORM</th><th>BETS</th><th>DATE</th></tr></thead>
+        <tbody id="tbAllP"></tbody>
+      </table></div>
+    </div>
+
+    <div class="tp" id="tpAdminBets">
+      <div class="shdr"><div class="stitle">ALL BETS</div></div>
+      <div class="sbar"><input type="text" placeholder="Search..." oninput="renderAllBets(this.value)"></div>
+      <div class="twrap"><table>
+        <thead><tr><th>#</th><th>PLAYER</th><th>AGENT</th><th>SPORT</th><th>MATCH</th><th>AMOUNT€</th><th>ODDS</th><th>POT.WIN€</th><th>STATUS</th><th>DATE</th></tr></thead>
+        <tbody id="tbAllB"></tbody>
+      </table></div>
+    </div>
+
+    <div class="tp" id="tpAdminStats">
+      <div class="srow" style="grid-template-columns:repeat(3,1fr)">
+        <div class="scard"><div class="slbl">Won</div><div class="sval g" id="stW">0</div></div>
+        <div class="scard"><div class="slbl">Lost</div><div class="sval" style="color:#e74c3c" id="stL">0</div></div>
+        <div class="scard"><div class="slbl">Open</div><div class="sval" style="color:var(--blue)" id="stO">0</div></div>
+      </div>
+      <div class="shdr"><div class="stitle">TOP SUPER-AGENTS</div></div>
+      <div class="twrap"><table>
+        <thead><tr><th>RANK</th><th>NAME</th><th>SUB-AGENTS</th><th>PLAYERS</th><th>COMMISSION €</th></tr></thead>
+        <tbody id="tbTopSA"></tbody>
+      </table></div>
+    </div>
+
+    <div class="tp" id="tpAdminSettings">
+      <div style="max-width:460px;">
+        <div class="shdr"><div class="stitle">SETTINGS</div></div>
+        <div class="fr"><label>Base value per player (€)</label><input type="number" id="cfgBase" value="10" min="1"></div>
+        <div class="fr"><label>New Admin Password</label><input type="password" id="cfgPass" placeholder="Leave blank = no change"></div>
+        <div class="fr"><label>New Secret Code</label><input type="text" id="cfgLink" placeholder="alfa-xxxxx"></div>
+        <div class="fr"><label>Main Page URL</label><input type="text" id="cfgUrl" placeholder="https://alfaportalvip.com"></div>
+        <button class="btn" onclick="saveSettings()">SAVE SETTINGS</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUPER-AGENT PANEL -->
+<div id="scSuper" class="SC">
+  <div class="topbar">
+    <div class="tbrand">ALFA PORTAL VIP</div>
+    <div class="tright">
+      <span class="trole super" id="superLabel">⭐ SUPER-AGENT</span>
+      <span class="tclock" id="clkS"></span>
+      <div class="lwrap">
+        <button class="lbtnL" id="langBtnS" onclick="toggleLang(event)">🇬🇧 English ▾</button>
+      </div>
+      <button class="tbtn gold" onclick="openMain()">🌐 MAIN PAGE</button>
+      <button class="tbtn" onclick="doLogout()">EXIT ✕</button>
+    </div>
+  </div>
+  <div class="main">
+    <div class="tabs">
+      <button class="tab ON" id="stab1" onclick="switchTab(this,'tpSuperSubs')">MY SUB-AGENTS</button>
+      <button class="tab" id="stab2" onclick="switchTab(this,'tpSuperPlayers')">MY PLAYERS</button>
+      <button class="tab" id="stab3" onclick="switchTab(this,'tpSuperBets')">ALL BETS</button>
+      <button class="tab" id="stab4" onclick="switchTab(this,'tpSuperLive');renderSuperLive()">🔴 LIVE</button>
+      <button class="tab" id="stab5" onclick="switchTab(this,'tpSuperComm');renderSuperComm()">COMMISSION</button>
+    </div>
+
+    <div class="tp ON" id="tpSuperSubs">
+      <div class="srow">
+        <div class="scard"><div class="slbl" id="slbl1">SUB-AGENTS</div><div class="sval" id="ssSA">0</div></div>
+        <div class="scard"><div class="slbl" id="slbl2">MY PLAYERS</div><div class="sval" id="ssMP">0</div></div>
+        <div class="scard"><div class="slbl" id="slbl3">TOTAL BETS</div><div class="sval" id="ssTB">0</div></div>
+        <div class="scard"><div class="slbl" id="slbl4">COMMISSION €</div><div class="sval g" id="ssTC">€0</div></div>
+      </div>
+      <div class="shdr">
+        <div class="stitle" id="stitleSubs">MY SUB-AGENTS</div>
+        <button class="btn purple" id="btnAddSub" onclick="openMAgent(null,'sub',null)">+ ADD SUB-AGENT</button>
+      </div>
+      <div class="sbar"><input type="text" placeholder="Search..." oninput="renderSubAgents(this.value)"></div>
+      <div class="twrap"><table>
+        <thead><tr><th>#</th><th>NAME</th><th>CODE</th><th>PASSWORD</th><th>PLAYERS</th><th>COMM%</th><th>COMM€</th><th>STATUS</th><th>ACTIONS</th></tr></thead>
+        <tbody id="tbSubs"></tbody>
+      </table></div>
+    </div>
+
+    <div class="tp" id="tpSuperPlayers">
+      <div class="shdr">
+        <div class="stitle" id="stitlePlayers">MY PLAYERS</div>
+        <button class="btn" id="btnAddSuperPl" onclick="openMPlayer(null)">+ ADD PLAYER</button>
+      </div>
+      <div class="twrap"><table>
+        <thead><tr><th>#</th><th>NAME</th><th>SUB-AGENT</th><th>PLATFORM</th><th>BETS</th><th>DATE</th><th>ACTIONS</th></tr></thead>
+        <tbody id="tbSuperPl"></tbody>
+      </table></div>
+    </div>
+
+    <div class="tp" id="tpSuperBets">
+      <div class="shdr">
+        <div class="stitle" id="stitleBets">ALL BETS</div>
+        <button class="btn" id="btnAddSuperBet" onclick="openMBet(null,null)">+ LOG BET</button>
+      </div>
+      <div class="sbar"><input type="text" placeholder="Search..." oninput="renderSuperBets(this.value)"></div>
+      <div class="twrap"><table>
+        <thead><tr><th>#</th><th>PLAYER</th><th>AGENT</th><th>SPORT</th><th>MATCH</th><th>AMOUNT€</th><th>ODDS</th><th>POT.WIN€</th><th>NOTE</th><th>STATUS</th><th>DATE</th><th>ACTIONS</th></tr></thead>
+        <tbody id="tbSuperBets"></tbody>
+      </table></div>
+    </div>
+
+    <div class="tp" id="tpSuperLive">
+      <div class="shdr"><div class="stitle"><span class="livedot"></span><span id="stitleLive">LIVE — ACTIVE BETS</span></div></div>
+      <div id="superLiveBox"></div>
+    </div>
+
+    <div class="tp" id="tpSuperComm">
+      <div class="srow" style="grid-template-columns:repeat(3,1fr)">
+        <div class="scard"><div class="slbl" id="sclbl1">MY PERCENTAGE</div><div class="sval" id="scPct">0%</div></div>
+        <div class="scard"><div class="slbl" id="sclbl2">TOTAL COMMISSION €</div><div class="sval g" id="scTotal">€0</div></div>
+        <div class="scard"><div class="slbl" id="sclbl3">ACTIVE PLAYERS</div><div class="sval" id="scActive">0</div></div>
+      </div>
+      <div class="shdr"><div class="stitle" id="stitleComm">COMMISSION DETAILS</div></div>
+      <div class="twrap"><table>
+        <thead><tr><th>AGENT/PLAYER</th><th>LEVEL</th><th>BETS</th><th>COMM €</th></tr></thead>
+        <tbody id="tbSuperComm"></tbody>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<!-- SUB-AGENT PANEL -->
+<div id="scSub" class="SC">
+  <div class="topbar">
+    <div class="tbrand">ALFA PORTAL VIP</div>
+    <div class="tright">
+      <span class="trole sub" id="subLabel">👤 AGENT</span>
+      <span class="tclock" id="clkSub"></span>
+      <div class="lwrap">
+        <button class="lbtnL" id="langBtnSub" onclick="toggleLang(event)">🇬🇧 English ▾</button>
+      </div>
+      <button class="tbtn gold" onclick="openMain()">🌐 MAIN PAGE</button>
+      <button class="tbtn" onclick="doLogout()">EXIT ✕</button>
+    </div>
+  </div>
+  <div class="main">
+    <div class="tabs">
+      <button class="tab ON" id="subtab1" onclick="switchTab(this,'tpSubPlayers')">MY PLAYERS</button>
+      <button class="tab" id="subtab2" onclick="switchTab(this,'tpSubBets')">BETS</button>
+      <button class="tab" id="subtab3" onclick="switchTab(this,'tpSubLive');renderSubLive()">🔴 LIVE</button>
+      <button class="tab" id="subtab4" onclick="switchTab(this,'tpSubComm');renderSubComm()">COMMISSION</button>
+    </div>
+
+    <div class="tp ON" id="tpSubPlayers">
+      <div class="srow" style="grid-template-columns:repeat(3,1fr)">
+        <div class="scard"><div class="slbl" id="sublbl1">MY PLAYERS</div><div class="sval" id="subSP">0</div></div>
+        <div class="scard"><div class="slbl" id="sublbl2">TOTAL BETS</div><div class="sval" id="subSB">0</div></div>
+        <div class="scard"><div class="slbl" id="sublbl3">MY COMMISSION €</div><div class="sval g" id="subSC">€0</div></div>
+      </div>
+      <div class="shdr">
+        <div class="stitle" id="subtitlePl">MY PLAYERS</div>
+        <button class="btn" id="btnAddSubPl" onclick="openMPlayer(null)">+ ADD PLAYER</button>
+      </div>
+      <div class="twrap"><table>
+        <thead><tr><th>#</th><th>NAME</th><th>PLATFORM</th><th>BETS</th><th>STATUS</th><th>DATE</th><th>ACTIONS</th></tr></thead>
+        <tbody id="tbSubPl"></tbody>
+      </table></div>
+    </div>
+
+    <div class="tp" id="tpSubBets">
+      <div class="shdr">
+        <div class="stitle" id="subtitleBt">MY BETS</div>
+        <button class="btn" id="btnAddSubBet" onclick="openMBet(null,null)">+ LOG BET</button>
+      </div>
+      <div class="sbar"><input type="text" placeholder="Search..." oninput="renderSubBets(this.value)"></div>
+      <div class="twrap"><table>
+        <thead><tr><th>#</th><th>PLAYER</th><th>SPORT</th><th>MATCH</th><th>AMOUNT€</th><th>ODDS</th><th>POT.WIN€</th><th>NOTE</th><th>STATUS</th><th>DATE</th><th>ACTIONS</th></tr></thead>
+        <tbody id="tbSubBets"></tbody>
+      </table></div>
+    </div>
+
+    <div class="tp" id="tpSubLive">
+      <div class="shdr"><div class="stitle"><span class="livedot"></span>LIVE — ACTIVE BETS</div></div>
+      <div id="subLiveBox"></div>
+    </div>
+
+    <div class="tp" id="tpSubComm">
+      <div class="srow" style="grid-template-columns:repeat(3,1fr)">
+        <div class="scard"><div class="slbl" id="sublblC1">MY PERCENTAGE</div><div class="sval" id="subCPct">0%</div></div>
+        <div class="scard"><div class="slbl" id="sublblC2">TOTAL COMMISSION €</div><div class="sval g" id="subCTotal">€0</div></div>
+        <div class="scard"><div class="slbl" id="sublblC3">ACTIVE PLAYERS</div><div class="sval" id="subCActive">0</div></div>
+      </div>
+      <div class="shdr"><div class="stitle">COMMISSION DETAILS</div></div>
+      <div class="twrap"><table>
+        <thead><tr><th>PLAYER</th><th>BETS</th><th>COMM €</th></tr></thead>
+        <tbody id="tbSubComm"></tbody>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: ADD/EDIT AGENT -->
+<div class="mov" id="mAgent">
+  <div class="mbox">
+    <button class="mx" onclick="closeM('mAgent')">✕</button>
+    <div class="mtitle" id="mAgentTitle">ADD AGENT</div>
+    <div class="fr"><label>Name</label><input type="text" id="agN" placeholder="Full Name"></div>
+    <div class="frrow">
+      <div class="fr"><label>Unique Code (auto)</label><input type="text" id="agC" readonly></div>
+      <div class="fr"><label>Password</label><input type="text" id="agP" placeholder="e.g. artan2024"></div>
+    </div>
+    <div class="frrow">
+      <div class="fr"><label>Commission %</label><input type="number" id="agPct" value="20" min="1" max="100"></div>
+      <div class="fr"><label>Status</label><select id="agSt"><option value="active">Active</option><option value="inactive">Inactive</option><option value="pending">Pending</option></select></div>
+    </div>
+    <input type="hidden" id="agLevel">
+    <input type="hidden" id="agParent">
+    <div class="mbtns"><button class="btn" onclick="saveAgent()">SAVE</button><button class="btn sec" onclick="closeM('mAgent')">CANCEL</button></div>
+  </div>
+</div>
+
+<!-- MODAL: ADD PLAYER -->
+<div class="mov" id="mPlayer">
+  <div class="mbox">
+    <button class="mx" onclick="closeM('mPlayer')">✕</button>
+    <div class="mtitle">ADD NEW PLAYER</div>
+    <div class="frrow">
+      <div class="fr"><label>Player Name</label><input type="text" id="plN" placeholder="Full Name"></div>
+      <div class="fr"><label>Email (optional)</label><input type="text" id="plE" placeholder="email@..."></div>
+    </div>
+    <div class="frrow">
+      <div class="fr"><label>Phone (optional)</label><input type="text" id="plT" placeholder="+383..."></div>
+      <div class="fr"><label>Platform</label>
+        <select id="plPl"><option>Stake</option><option>1Win</option><option>Roobet</option><option>BC.Game</option><option>GGPoker</option><option>Binance Pay</option><option>BYBIT PAY</option></select>
+      </div>
+    </div>
+    <div class="fr"><label>Notes (optional)</label><textarea id="plNo" placeholder="Notes..."></textarea></div>
+    <input type="hidden" id="plAgentId">
+    <div class="mbtns"><button class="btn" onclick="savePlayer()">ADD PLAYER</button><button class="btn sec" onclick="closeM('mPlayer')">CANCEL</button></div>
+  </div>
+</div>
+
+<!-- MODAL: BET -->
+<div class="mov" id="mBet">
+  <div class="mbox">
+    <button class="mx" onclick="closeM('mBet')">✕</button>
+    <div class="mtitle" id="mBetTitle">LOG NEW BET</div>
+    <div class="frrow">
+      <div class="fr"><label>Player</label><select id="btPl"></select></div>
+      <div class="fr"><label>Platform</label>
+        <select id="btPlatform"><option>Stake</option><option>1Win</option><option>Roobet</option><option>BC.Game</option><option>GGPoker</option><option>Binance Pay</option><option>BYBIT PAY</option></select>
+      </div>
+    </div>
+    <div class="frrow">
+      <div class="fr"><label>Sport</label>
+        <select id="btSp"><option>⚽ Football</option><option>🏀 Basketball</option><option>🎾 Tennis</option><option>🏒 Hockey</option><option>🥊 MMA/Boxing</option><option>🏈 American Football</option><option>⚾ Baseball</option><option>🎮 Esports</option><option>🎲 Casino</option><option>📊 Other</option></select>
+      </div>
+      <div class="fr"><label>Match / Event</label><input type="text" id="btEv" placeholder="Real Madrid vs Barcelona"></div>
+    </div>
+    <div class="frrow">
+      <div class="fr"><label>Amount (€)</label><input type="number" id="btAm" placeholder="50" step="0.01" oninput="calcPot()"></div>
+      <div class="fr"><label>Odds</label><input type="number" id="btCo" placeholder="1.85" step="0.01" oninput="calcPot()"></div>
+    </div>
+    <div class="frrow">
+      <div class="fr"><label>Potential Win (€)</label><input type="text" id="btPot" readonly style="color:var(--green)"></div>
+      <div class="fr"><label>Status</label><select id="btSt"><option value="open">Open</option><option value="won">Won ✓</option><option value="lost">Lost ✗</option></select></div>
+    </div>
+    <div class="fr"><label>Note / Analysis</label><textarea id="btNo" placeholder="Analysis..."></textarea></div>
+    <input type="hidden" id="betEditId">
+    <div class="mbtns"><button class="btn" onclick="saveBet()">SAVE BET</button><button class="btn sec" onclick="closeM('mBet')">CANCEL</button></div>
+  </div>
+</div>
+
+<!-- MODAL: SHARE -->
+<div class="mov" id="mShare">
+  <div class="mbox" style="width:460px;">
+    <button class="mx" onclick="closeM('mShare')">✕</button>
+    <div class="mtitle">📤 SHARE ACCESS</div>
+    <div id="shareCard"></div>
+    <div class="mbtns" style="margin-top:16px;">
+      <button class="btn green" id="btnCopyShare" onclick="copyShareTxt()">📋 COPY & SEND</button>
+      <button class="btn sec" onclick="closeM('mShare')">CLOSE</button>
+    </div>
+    <div style="margin-top:12px;font-size:11px;color:var(--text2);text-align:center;">Copy → Paste in WhatsApp / Telegram / SMS</div>
+  </div>
+</div>
+
+<!-- MODAL: RECEIPT -->
+<div class="mov" id="mReceipt">
+  <div class="mbox" style="width:460px;">
+    <button class="mx" onclick="closeM('mReceipt')">✕</button>
+    <div class="mtitle">RECEIPT / PROOF</div>
+    <div id="rcContent"></div>
+    <div class="mbtns" style="margin-top:14px;">
+      <button class="btn green" onclick="doPrint()">🖨 PRINT</button>
+      <button class="btn blue" onclick="doDownload()">⬇ SAVE</button>
+      <button class="btn sec" onclick="closeM('mReceipt')">CLOSE</button>
+    </div>
+  </div>
+</div>
+
+<!-- LANG DROPDOWN - GLOBAL FIXED -->
+<div class="langDD" id="langDD">
+  <div class="lopt" onclick="setLang('en')">🇬🇧 English</div>
+  <div class="lopt" onclick="setLang('de')">🇩🇪 Deutsch</div>
+  <div class="lopt" onclick="setLang('fr')">🇫🇷 Français</div>
+  <div class="lopt" onclick="setLang('es')">🇪🇸 Español</div>
+  <div class="lopt" onclick="setLang('it')">🇮🇹 Italiano</div>
+  <div class="lopt" onclick="setLang('pt')">🇵🇹 Português</div>
+  <div class="lopt" onclick="setLang('cs')">🇨🇿 Čeština</div>
+  <div class="lopt" onclick="setLang('tr')">🇹🇷 Türkçe</div>
+  <div class="lopt" onclick="setLang('ar')">🇦🇪 العربية</div>
+  <div class="lopt" onclick="setLang('sq')">🇦🇱 Shqip</div>
+  <div class="lopt" onclick="setLang('hr')">🇭🇷 Hrvatski</div>
+  <div class="lopt" onclick="setLang('sr')">🇷🇸 Srpski</div>
+  <div class="lopt" onclick="setLang('el')">🇬🇷 Ελληνικά</div>
+  <div class="lopt" onclick="setLang('pl')">🇵🇱 Polski</div>
+</div>
+
+<div class="toast" id="toastEl"></div>
+
+<script>
+(function(){
+
+// ============================================================
+// DATABASE
+// ============================================================
+var DB = {
+  getCfg: function(){ return JSON.parse(localStorage.getItem('apv3_cfg') || JSON.stringify({ap:'admin123',al:'alfa-vip2024',bv:10,url:''})); },
+  setCfg: function(v){ localStorage.setItem('apv3_cfg',JSON.stringify(v)); },
+  getAgents: function(){ return JSON.parse(localStorage.getItem('apv3_agents')||'[]'); },
+  setAgents: function(v){ localStorage.setItem('apv3_agents',JSON.stringify(v)); },
+  getPlayers: function(){ return JSON.parse(localStorage.getItem('apv3_players')||'[]'); },
+  setPlayers: function(v){ localStorage.setItem('apv3_players',JSON.stringify(v)); },
+  getBets: function(){ return JSON.parse(localStorage.getItem('apv3_bets')||'[]'); },
+  setBets: function(v){ localStorage.setItem('apv3_bets',JSON.stringify(v)); }
+};
+
+// ============================================================
+// STATE
+// ============================================================
+var loginRole = 'admin';
+var curAgent = null; // current logged agent
+var editAgentId = null;
+var editBetId = null;
+var curLang = localStorage.getItem('apv3_lang') || 'en';
+var shareData = '';
+
+// ============================================================
+// SCREEN MANAGEMENT
+// ============================================================
+function show(id){
+  document.querySelectorAll('.SC').forEach(function(s){ s.classList.remove('ON'); });
+  document.getElementById(id).classList.add('ON');
+}
+
+// ============================================================
+// LOGIN
+// ============================================================
+window.setRole = function(r){
+  loginRole = r;
+  document.getElementById('rtAdmin').classList.toggle('ON', r==='admin');
+  document.getElementById('rtAgent').classList.toggle('ON', r==='agent');
+  document.getElementById('lfLink').style.display = r==='admin' ? 'block' : 'none';
+  document.getElementById('lblPass').textContent = r==='admin' ? 'PASSWORD' : 'AGENT CODE';
+};
+
+window.doLogin = function(){
+  var link = document.getElementById('inpLink').value.trim();
+  var pass = document.getElementById('inpPass').value.trim();
+  var cfg = DB.getCfg();
+
+  if(loginRole === 'admin'){
+    if(link === cfg.al && pass === cfg.ap){
+      show('scAdmin');
+      renderAdminAll();
+      startClock('clkA');
+      loadCfgFields();
+    } else showErr();
+  } else {
+    var agents = DB.getAgents();
+    var ag = null;
+    for(var i=0;i<agents.length;i++){
+      if((agents[i].code===pass || agents[i].pass===pass) && agents[i].status==='active'){
+        ag = agents[i]; break;
+      }
+    }
+    if(ag){
+      curAgent = ag;
+      if(ag.level === 'super'){
+        document.getElementById('superLabel').textContent = '⭐ '+ag.name;
+        show('scSuper');
+        renderSuperAll();
+        startClock('clkS');
+      } else {
+        document.getElementById('subLabel').textContent = '👤 '+ag.name;
+        show('scSub');
+        renderSubAll();
+        startClock('clkSub');
+      }
+      applyLang(curLang);
+    } else showErr();
+  }
+};
+
+function showErr(){
+  var e = document.getElementById('loginErr');
+  e.style.display = 'block';
+  setTimeout(function(){ e.style.display='none'; },3000);
+}
+
+window.doLogout = function(){
+  curAgent = null;
+  show('scLogin');
+  document.getElementById('inpPass').value = '';
+  document.getElementById('inpLink').value = '';
+};
+
+window.openMain = function(){
+  window.open(DB.getCfg().url || 'https://alfaportalvip.com','_blank');
+};
+
+// ============================================================
+// CLOCK
+// ============================================================
+function startClock(id){
+  setInterval(function(){
+    var el = document.getElementById(id);
+    if(el) el.textContent = new Date().toLocaleString('en-GB');
+  },1000);
+}
+
+// ============================================================
+// TABS
+// ============================================================
+window.switchTab = function(btn, panelId){
+  var parent = btn.closest('.main') || btn.closest('#scAdmin');
+  var allTabs = btn.closest('.tabs').querySelectorAll('.tab');
+  allTabs.forEach(function(t){ t.classList.remove('ON'); });
+  btn.classList.add('ON');
+  var allPanels = btn.closest('.main').querySelectorAll('.tp');
+  allPanels.forEach(function(p){ p.classList.remove('ON'); });
+  document.getElementById(panelId).classList.add('ON');
+};
+
+// ============================================================
+// HELPERS
+// ============================================================
+function genCode(){
+  var c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789', r='AGT-';
+  for(var i=0;i<6;i++) r+=c[Math.floor(Math.random()*c.length)];
+  return r;
+}
+
+window.calcPot = function(){
+  var a=parseFloat(document.getElementById('btAm').value)||0;
+  var c=parseFloat(document.getElementById('btCo').value)||0;
+  document.getElementById('btPot').value=(a&&c)?'€'+(a*c).toFixed(2):'';
+};
+
+function commOf(agentId){
+  var agents = DB.getAgents();
+  var ag = null;
+  for(var i=0;i<agents.length;i++) if(agents[i].id===agentId){ag=agents[i];break;}
+  if(!ag) return '0.00';
+  var pl = DB.getPlayers().filter(function(p){return p.agentId===agentId;}).length;
+  var bv = DB.getCfg().bv || 10;
+  return (pl * bv * (ag.pct||20) / 100).toFixed(2);
+}
+
+function totalCommOf(superAgentId){
+  // Super agent's commission = own players + sub-agents' players
+  var ownComm = parseFloat(commOf(superAgentId));
+  var subs = DB.getAgents().filter(function(a){return a.parentId===superAgentId;});
+  var subComm = 0;
+  for(var i=0;i<subs.length;i++) subComm += parseFloat(commOf(subs[i].id));
+  return (ownComm + subComm).toFixed(2);
+}
+
+function getAgentById(id){
+  var ag = DB.getAgents();
+  for(var i=0;i<ag.length;i++) if(ag[i].id===id) return ag[i];
+  return null;
+}
+
+function playersOf(agentId){
+  return DB.getPlayers().filter(function(p){return p.agentId===agentId;});
+}
+
+function allPlayersUnder(superAgentId){
+  // Own players + sub-agents' players
+  var own = playersOf(superAgentId);
+  var subs = DB.getAgents().filter(function(a){return a.parentId===superAgentId;});
+  var all = own.slice();
+  for(var i=0;i<subs.length;i++){
+    var sp = playersOf(subs[i].id);
+    for(var j=0;j<sp.length;j++) all.push(sp[j]);
+  }
+  return all;
+}
+
+function betsOf(agentId){
+  return DB.getBets().filter(function(b){return b.agentId===agentId;});
+}
+
+function allBetsUnder(superAgentId){
+  var own = betsOf(superAgentId);
+  var subs = DB.getAgents().filter(function(a){return a.parentId===superAgentId;});
+  var all = own.slice();
+  for(var i=0;i<subs.length;i++){
+    var sb = betsOf(subs[i].id);
+    for(var j=0;j<sb.length;j++) all.push(sb[j]);
+  }
+  return all;
+}
+
+function stLbl(s){
+  var m = {active:'ACTIVE',inactive:'INACTIVE',pending:'PENDING',won:'WON',lost:'LOST',open:'OPEN'};
+  if(curLang!=='en'){
+    var L = LANG[curLang]||LANG.en;
+    m = {active:L.sActive||'ACTIVE',inactive:L.sInactive||'INACTIVE',pending:L.sPending||'PENDING',won:L.sWon||'WON',lost:L.sLost||'LOST',open:L.sOpen||'OPEN'};
+  }
+  return m[s]||s;
+}
+
+// ============================================================
+// ADMIN RENDER
+// ============================================================
+function renderAdminAll(){
+  renderSuperAgents('');
+  renderAllAgents('');
+  renderAllPlayers('');
+  renderAllBets('');
+  var agents = DB.getAgents();
+  var supers = agents.filter(function(a){return a.level==='super';});
+  var subs = agents.filter(function(a){return a.level==='sub';});
+  document.getElementById('aSA').textContent = supers.length;
+  document.getElementById('aSub').textContent = subs.length;
+  document.getElementById('aTP').textContent = DB.getPlayers().length;
+  var tc = 0;
+  for(var i=0;i<supers.length;i++) tc += parseFloat(totalCommOf(supers[i].id));
+  document.getElementById('aTC').textContent = '€'+tc.toFixed(2);
+}
+
+window.renderSuperAgents = function(q){
+  var list = DB.getAgents().filter(function(a){ return a.level==='super' && (!q||a.name.toLowerCase().includes(q.toLowerCase())); });
+  var h = '';
+  if(!list.length) h='<tr><td colspan="10" class="empt">No super-agents yet.</td></tr>';
+  else list.forEach(function(a,i){
+    var subs = DB.getAgents().filter(function(s){return s.parentId===a.id;}).length;
+    var pl = allPlayersUnder(a.id).length;
+    h+='<tr><td style="color:var(--text2)">'+(i+1)+'</td>'+
+      '<td><strong>'+a.name+'</strong></td>'+
+      '<td><span class="gcode" onclick="copyIt(this.textContent)">'+a.code+'</span></td>'+
+      '<td class="mono" style="color:var(--text2)">'+a.pass+'</td>'+
+      '<td class="mono">'+subs+'</td>'+
+      '<td class="mono">'+pl+'</td>'+
+      '<td style="color:var(--gold)" class="mono">'+(a.pct||20)+'%</td>'+
+      '<td class="profit">€'+totalCommOf(a.id)+'</td>'+
+      '<td><span class="badge '+(a.status||'active')+'">'+stLbl(a.status||'active')+'</span></td>'+
+      '<td><div class="acell">'+
+        '<button class="btn xs green" data-id="'+a.id+'" onclick="openShare(this.dataset.id)">📤</button>'+
+        '<button class="btn xs sec" data-id="'+a.id+'" onclick="openMAgent(this.dataset.id,\'super\',null)">EDIT</button>'+
+        '<button class="btn xs red" data-id="'+a.id+'" onclick="delAgent(this.dataset.id)">✕</button>'+
+      '</div></td></tr>';
+  });
+  document.getElementById('tbSA').innerHTML = h;
+};
+
+window.renderAllAgents = function(q){
+  var list = DB.getAgents().filter(function(a){ return !q||a.name.toLowerCase().includes(q.toLowerCase()); });
+  var h = '';
+  if(!list.length) h='<tr><td colspan="9" class="empt">No agents yet.</td></tr>';
+  else list.forEach(function(a,i){
+    var parent = a.parentId ? getAgentById(a.parentId) : null;
+    var pl = playersOf(a.id).length;
+    h+='<tr><td style="color:var(--text2)">'+(i+1)+'</td>'+
+      '<td><strong>'+a.name+'</strong></td>'+
+      '<td><span class="lvl '+(a.level==='super'?'super':'sub')+'">'+(a.level==='super'?'SUPER':'SUB')+'</span></td>'+
+      '<td><span class="gcode" onclick="copyIt(this.textContent)">'+a.code+'</span></td>'+
+      '<td style="color:var(--text2)">'+(parent?parent.name:'-')+'</td>'+
+      '<td class="mono">'+pl+'</td>'+
+      '<td style="color:var(--gold)" class="mono">'+(a.pct||20)+'%</td>'+
+      '<td><span class="badge '+(a.status||'active')+'">'+stLbl(a.status||'active')+'</span></td>'+
+      '<td><div class="acell">'+
+        '<button class="btn xs green" data-id="'+a.id+'" onclick="openShare(this.dataset.id)">📤</button>'+
+        '<button class="btn xs red" data-id="'+a.id+'" onclick="delAgent(this.dataset.id)">✕</button>'+
+      '</div></td></tr>';
+  });
+  document.getElementById('tbAllA').innerHTML = h;
+};
+
+window.renderAllPlayers = function(q){
+  var list = DB.getPlayers().filter(function(p){ return !q||p.name.toLowerCase().includes(q.toLowerCase()); });
+  var h = '';
+  if(!list.length) h='<tr><td colspan="7" class="empt">No players yet.</td></tr>';
+  else list.forEach(function(p,i){
+    var ag = getAgentById(p.agentId);
+    var superAg = ag && ag.parentId ? getAgentById(ag.parentId) : (ag && ag.level==='super'?ag:null);
+    var bc = DB.getBets().filter(function(b){return b.playerId===p.id;}).length;
+    h+='<tr><td style="color:var(--text2)">'+(i+1)+'</td>'+
+      '<td><strong>'+p.name+'</strong></td>'+
+      '<td style="color:var(--blue)">'+(ag?ag.name:'-')+'</td>'+
+      '<td style="color:var(--purple)">'+(superAg?superAg.name:'-')+'</td>'+
+      '<td><span class="badge active">'+(p.platform||'Stake')+'</span></td>'+
+      '<td class="mono">'+bc+'</td>'+
+      '<td class="mono" style="color:var(--text2)">'+new Date(p.date).toLocaleDateString('en-GB')+'</td></tr>';
+  });
+  document.getElementById('tbAllP').innerHTML = h;
+};
+
+window.renderAllBets = function(q){
+  var list = DB.getBets().filter(function(b){ return !q||(b.event||'').toLowerCase().includes(q.toLowerCase())||(b.playerName||'').toLowerCase().includes(q.toLowerCase()); });
+  var h = '';
+  if(!list.length) h='<tr><td colspan="10" class="empt">No bets yet.</td></tr>';
+  else list.forEach(function(b,i){
+    var pot=(parseFloat(b.amount||0)*parseFloat(b.coef||1)).toFixed(2);
+    h+='<tr><td style="color:var(--text2)">'+(i+1)+'</td>'+
+      '<td><strong>'+(b.playerName||'-')+'</strong></td>'+
+      '<td style="color:var(--blue)">'+(b.agentName||'-')+'</td>'+
+      '<td>'+(b.sport||'-')+'</td><td>'+(b.event||'-')+'</td>'+
+      '<td class="mono">€'+(b.amount||0)+'</td>'+
+      '<td class="mono">'+(b.coef||'-')+'</td>'+
+      '<td class="'+(b.status==='won'?'profit':'mono')+'">€'+pot+'</td>'+
+      '<td><span class="badge '+(b.status||'open')+'">'+stLbl(b.status||'open')+'</span></td>'+
+      '<td class="mono" style="color:var(--text2)">'+new Date(b.date).toLocaleDateString('en-GB')+'</td></tr>';
+  });
+  document.getElementById('tbAllB').innerHTML = h;
+};
+
+window.renderAdminStats = function(){
+  var bets=DB.getBets();
+  document.getElementById('stW').textContent=bets.filter(function(b){return b.status==='won';}).length;
+  document.getElementById('stL').textContent=bets.filter(function(b){return b.status==='lost';}).length;
+  document.getElementById('stO').textContent=bets.filter(function(b){return b.status==='open';}).length;
+  var supers=DB.getAgents().filter(function(a){return a.level==='super';})
+    .sort(function(a,b){ return allPlayersUnder(b.id).length-allPlayersUnder(a.id).length; }).slice(0,10);
+  var medals=['🥇','🥈','🥉'], h='';
+  supers.forEach(function(a,i){
+    h+='<tr><td>'+(medals[i]||i+1)+'</td><td><strong>'+a.name+'</strong></td>'+
+      '<td class="mono">'+DB.getAgents().filter(function(s){return s.parentId===a.id;}).length+'</td>'+
+      '<td class="mono">'+allPlayersUnder(a.id).length+'</td>'+
+      '<td class="profit">€'+totalCommOf(a.id)+'</td></tr>';
+  });
+  document.getElementById('tbTopSA').innerHTML=h||'<tr><td colspan="5" class="empt">No data.</td></tr>';
+};
+
+// ============================================================
+// SUPER-AGENT RENDER
+// ============================================================
+function renderSuperAll(){
+  if(!curAgent) return;
+  renderSubAgents('');
+  renderSuperPlayersList();
+  renderSuperBets('');
+  var subs = DB.getAgents().filter(function(a){return a.parentId===curAgent.id;});
+  var allPl = allPlayersUnder(curAgent.id);
+  var allBt = allBetsUnder(curAgent.id);
+  document.getElementById('ssSA').textContent = subs.length;
+  document.getElementById('ssMP').textContent = allPl.length;
+  document.getElementById('ssTB').textContent = allBt.length;
+  document.getElementById('ssTC').textContent = '€'+totalCommOf(curAgent.id);
+}
+
+window.renderSubAgents = function(q){
+  if(!curAgent) return;
+  var list = DB.getAgents().filter(function(a){ return a.parentId===curAgent.id && (!q||a.name.toLowerCase().includes(q.toLowerCase())); });
+  var h='';
+  if(!list.length) h='<tr><td colspan="9" class="empt">No sub-agents yet.</td></tr>';
+  else list.forEach(function(a,i){
+    var pl = playersOf(a.id).length;
+    h+='<tr><td style="color:var(--text2)">'+(i+1)+'</td>'+
+      '<td><strong>'+a.name+'</strong></td>'+
+      '<td><span class="gcode" onclick="copyIt(this.textContent)">'+a.code+'</span></td>'+
+      '<td class="mono" style="color:var(--text2)">'+a.pass+'</td>'+
+      '<td class="mono">'+pl+'</td>'+
+      '<td style="color:var(--gold)" class="mono">'+(a.pct||20)+'%</td>'+
+      '<td class="profit">€'+commOf(a.id)+'</td>'+
+      '<td><span class="badge '+(a.status||'active')+'">'+stLbl(a.status||'active')+'</span></td>'+
+      '<td><div class="acell">'+
+        '<button class="btn xs green" data-id="'+a.id+'" onclick="openShare(this.dataset.id)">📤</button>'+
+        '<button class="btn xs sec" data-id="'+a.id+'" onclick="openMAgent(this.dataset.id,\'sub\',null)">EDIT</button>'+
+        '<button class="btn xs red" data-id="'+a.id+'" onclick="delAgent(this.dataset.id)">✕</button>'+
+      '</div></td></tr>';
+  });
+  document.getElementById('tbSubs').innerHTML = h;
+};
+
+function renderSuperPlayersList(){
+  if(!curAgent) return;
+  var all = allPlayersUnder(curAgent.id);
+  var h='';
+  if(!all.length) h='<tr><td colspan="7" class="empt">No players yet.</td></tr>';
+  else all.forEach(function(p,i){
+    var ag = getAgentById(p.agentId);
+    var bc = DB.getBets().filter(function(b){return b.playerId===p.id;}).length;
+    var isOwn = p.agentId===curAgent.id;
+    h+='<tr><td style="color:var(--text2)">'+(i+1)+'</td>'+
+      '<td><strong>'+p.name+'</strong></td>'+
+      '<td style="color:'+(isOwn?'var(--gold)':'var(--blue)')+'">'+( isOwn?'⭐ Direct':'👤 '+(ag?ag.name:'-'))+'</td>'+
+      '<td><span class="badge active">'+(p.platform||'Stake')+'</span></td>'+
+      '<td class="mono">'+bc+'</td>'+
+      '<td class="mono" style="color:var(--text2)">'+new Date(p.date).toLocaleDateString('en-GB')+'</td>'+
+      '<td><div class="acell">'+
+        (isOwn?'<button class="btn xs red" data-id="'+p.id+'" onclick="delPlayer(this.dataset.id)">✕</button>':'')+
+      '</div></td></tr>';
+  });
+  document.getElementById('tbSuperPl').innerHTML = h;
+}
+
+window.renderSuperBets = function(q){
+  if(!curAgent) return;
+  var list = allBetsUnder(curAgent.id).filter(function(b){
+    return !q||(b.event||'').toLowerCase().includes(q.toLowerCase())||(b.playerName||'').toLowerCase().includes(q.toLowerCase());
+  });
+  var h='';
+  if(!list.length) h='<tr><td colspan="12" class="empt">No bets yet.</td></tr>';
+  else list.forEach(function(b,i){
+    var pot=(parseFloat(b.amount||0)*parseFloat(b.coef||1)).toFixed(2);
+    var isOwn = b.agentId===curAgent.id;
+    h+='<tr><td style="color:var(--text2)">'+(i+1)+'</td>'+
+      '<td><strong>'+(b.playerName||'-')+'</strong></td>'+
+      '<td style="color:'+(isOwn?'var(--gold)':'var(--blue)')+'">'+( isOwn?'Direct':'Sub')+'</td>'+
+      '<td>'+(b.sport||'-')+'</td><td>'+(b.event||'-')+'</td>'+
+      '<td class="mono">€'+(b.amount||0)+'</td><td class="mono">'+(b.coef||'-')+'</td>'+
+      '<td class="'+(b.status==='won'?'profit':'mono')+'">€'+pot+'</td>'+
+      '<td style="color:var(--text2);font-size:11px">'+((b.note||'').substring(0,20)||'-')+'</td>'+
+      '<td><span class="badge '+(b.status||'open')+'">'+stLbl(b.status||'open')+'</span></td>'+
+      '<td class="mono" style="color:var(--text2)">'+new Date(b.date).toLocaleDateString('en-GB')+'</td>'+
+      '<td><div class="acell">'+
+        (isOwn?
+          '<button class="btn xs blue" data-id="'+b.id+'" onclick="showReceipt(this.dataset.id)">🖨</button>'+
+          '<button class="btn xs sec" data-id="'+b.id+'" onclick="openMBet(this.dataset.id,null)">✎</button>'+
+          '<button class="btn xs red" data-id="'+b.id+'" onclick="delBet(this.dataset.id)">✕</button>'
+          :'<button class="btn xs blue" data-id="'+b.id+'" onclick="showReceipt(this.dataset.id)">🖨</button>'
+        )+
+      '</div></td></tr>';
+  });
+  document.getElementById('tbSuperBets').innerHTML = h;
+};
+
+window.renderSuperLive = function(){
+  if(!curAgent) return;
+  var list = allBetsUnder(curAgent.id).filter(function(b){return b.status==='open';});
+  renderLiveBox('superLiveBox', list, true);
+};
+
+window.renderSuperComm = function(){
+  if(!curAgent) return;
+  var bv = DB.getCfg().bv||10;
+  document.getElementById('scPct').textContent=(curAgent.pct||20)+'%';
+  document.getElementById('scTotal').textContent='€'+totalCommOf(curAgent.id);
+  var allPl = allPlayersUnder(curAgent.id);
+  document.getElementById('scActive').textContent=allPl.length;
+  var h='';
+  // Own players
+  var ownPl = playersOf(curAgent.id);
+  ownPl.forEach(function(p){
+    var bc=DB.getBets().filter(function(b){return b.playerId===p.id;}).length;
+    h+='<tr><td><strong>'+p.name+'</strong></td><td><span class="lvl super">DIRECT</span></td><td class="mono">'+bc+'</td><td class="profit">€'+(bv*(curAgent.pct||20)/100).toFixed(2)+'</td></tr>';
+  });
+  // Sub-agents
+  var subs = DB.getAgents().filter(function(a){return a.parentId===curAgent.id;});
+  subs.forEach(function(sub){
+    h+='<tr style="background:rgba(52,152,219,0.05)"><td colspan="4" style="color:var(--blue);font-weight:700;padding:8px 13px;font-size:11px;letter-spacing:2px">👤 SUB: '+sub.name+' ('+commOf(sub.id)+'€)</td></tr>';
+    playersOf(sub.id).forEach(function(p){
+      var bc=DB.getBets().filter(function(b){return b.playerId===p.id;}).length;
+      h+='<tr><td><strong>'+p.name+'</strong></td><td><span class="lvl sub">VIA '+sub.name+'</span></td><td class="mono">'+bc+'</td><td class="profit">€'+(bv*(sub.pct||20)/100).toFixed(2)+'</td></tr>';
+    });
+  });
+  document.getElementById('tbSuperComm').innerHTML=h||'<tr><td colspan="4" class="empt">No players yet.</td></tr>';
+};
+
+// ============================================================
+// SUB-AGENT RENDER
+// ============================================================
+function renderSubAll(){
+  if(!curAgent) return;
+  var pl = playersOf(curAgent.id);
+  var bt = betsOf(curAgent.id);
+  document.getElementById('subSP').textContent=pl.length;
+  document.getElementById('subSB').textContent=bt.length;
+  document.getElementById('subSC').textContent='€'+commOf(curAgent.id);
+  renderSubPlayersList();
+  renderSubBets('');
+}
+
+function renderSubPlayersList(){
+  if(!curAgent) return;
+  var list = playersOf(curAgent.id);
+  var h='';
+  if(!list.length){
+    var L=LANG[curLang]||LANG.en;
+    h='<tr><td colspan="7" class="empt">'+(L.noPlayers||'No players yet.')+'</td></tr>';
+  } else {
+    list.forEach(function(p,i){
+      var bc=DB.getBets().filter(function(b){return b.playerId===p.id;}).length;
+      h+='<tr><td style="color:var(--text2)">'+(i+1)+'</td>'+
+        '<td><strong>'+p.name+'</strong><br><span style="color:var(--text2);font-size:11px">'+(p.email||'')+(p.tel?' · '+p.tel:'')+'</span></td>'+
+        '<td><span class="badge active">'+(p.platform||'Stake')+'</span></td>'+
+        '<td class="mono">'+bc+'</td>'+
+        '<td><span class="badge active">'+stLbl('active')+'</span></td>'+
+        '<td class="mono" style="color:var(--text2)">'+new Date(p.date).toLocaleDateString('en-GB')+'</td>'+
+        '<td><div class="acell">'+
+          '<button class="btn xs" data-id="'+p.id+'" onclick="openMBet(null,this.dataset.id)">+BET</button>'+
+          '<button class="btn xs red" data-id="'+p.id+'" onclick="delPlayer(this.dataset.id)">✕</button>'+
+        '</div></td></tr>';
+    });
+  }
+  document.getElementById('tbSubPl').innerHTML=h;
+}
+
+window.renderSubBets = function(q){
+  if(!curAgent) return;
+  var list = betsOf(curAgent.id).filter(function(b){
+    return !q||(b.event||'').toLowerCase().includes(q.toLowerCase())||(b.playerName||'').toLowerCase().includes(q.toLowerCase());
+  });
+  var h='';
+  if(!list.length){
+    var L=LANG[curLang]||LANG.en;
+    h='<tr><td colspan="11" class="empt">'+(L.noBets||'No bets yet.')+'</td></tr>';
+  } else {
+    list.forEach(function(b,i){
+      var pot=(parseFloat(b.amount||0)*parseFloat(b.coef||1)).toFixed(2);
+      h+='<tr><td style="color:var(--text2)">'+(i+1)+'</td>'+
+        '<td><strong>'+(b.playerName||'-')+'</strong></td>'+
+        '<td>'+(b.sport||'-')+'</td><td>'+(b.event||'-')+'</td>'+
+        '<td class="mono">€'+(b.amount||0)+'</td><td class="mono">'+(b.coef||'-')+'</td>'+
+        '<td class="'+(b.status==='won'?'profit':'mono')+'">€'+pot+'</td>'+
+        '<td style="color:var(--text2);font-size:11px">'+((b.note||'').substring(0,20)||'-')+'</td>'+
+        '<td><span class="badge '+(b.status||'open')+'">'+stLbl(b.status||'open')+'</span></td>'+
+        '<td class="mono" style="color:var(--text2)">'+new Date(b.date).toLocaleDateString('en-GB')+'</td>'+
+        '<td><div class="acell">'+
+          '<button class="btn xs blue" data-id="'+b.id+'" onclick="showReceipt(this.dataset.id)">🖨</button>'+
+          '<button class="btn xs sec" data-id="'+b.id+'" onclick="openMBet(this.dataset.id,null)">✎</button>'+
+          '<button class="btn xs red" data-id="'+b.id+'" onclick="delBet(this.dataset.id)">✕</button>'+
+        '</div></td></tr>';
+    });
+  }
+  document.getElementById('tbSubBets').innerHTML=h;
+};
+
+window.renderSubLive = function(){
+  if(!curAgent) return;
+  var list = betsOf(curAgent.id).filter(function(b){return b.status==='open';});
+  renderLiveBox('subLiveBox', list, false);
+};
+
+window.renderSubComm = function(){
+  if(!curAgent) return;
+  var bv=DB.getCfg().bv||10, pct=curAgent.pct||20;
+  document.getElementById('subCPct').textContent=pct+'%';
+  document.getElementById('subCTotal').textContent='€'+commOf(curAgent.id);
+  var pl=playersOf(curAgent.id);
+  document.getElementById('subCActive').textContent=pl.length;
+  var h='';
+  pl.forEach(function(p){
+    var bc=DB.getBets().filter(function(b){return b.playerId===p.id;}).length;
+    h+='<tr><td><strong>'+p.name+'</strong></td><td class="mono">'+bc+'</td><td class="profit">€'+(bv*pct/100).toFixed(2)+'</td></tr>';
+  });
+  document.getElementById('tbSubComm').innerHTML=h||'<tr><td colspan="3" class="empt">No players yet.</td></tr>';
+};
+
+// ============================================================
+// LIVE BOX
+// ============================================================
+function renderLiveBox(boxId, list, isSuper){
+  var L=LANG[curLang]||LANG.en;
+  var h='';
+  if(!list.length) h='<div class="empt">'+(L.noLive||'No active live bets.')+'</div>';
+  else list.forEach(function(b){
+    var pot=(parseFloat(b.amount||0)*parseFloat(b.coef||1)).toFixed(2);
+    var canEdit = !isSuper || b.agentId===curAgent.id;
+    h+='<div class="livecard">'+
+      '<div><div style="font-size:16px;font-weight:700;margin-bottom:4px">'+b.sport+' — '+b.event+'</div>'+
+      '<div style="color:var(--text2);font-size:12px">'+(L.player||'Player')+': <span style="color:var(--gold)">'+b.playerName+'</span>'+
+      (isSuper?' &nbsp;|&nbsp; <span style="color:var(--blue)">'+(b.agentId===curAgent.id?'Direct':'Sub: '+b.agentName)+'</span>':'')+
+      ' &nbsp;|&nbsp; '+b.platform+'</div>'+
+      (b.note?'<div style="color:var(--text2);font-size:11px;margin-top:4px">📝 '+b.note+'</div>':'')+
+      '</div>'+
+      '<div style="text-align:right">'+
+      '<div style="font-size:22px;font-weight:700;color:var(--gold2)" class="mono">€'+b.amount+'</div>'+
+      '<div style="color:var(--text2);font-size:12px">x'+b.coef+' → <span style="color:var(--green)">€'+pot+'</span></div>'+
+      '<div style="display:flex;gap:6px;margin-top:8px;justify-content:flex-end">'+
+      (canEdit?
+        '<button class="btn xs green" data-id="'+b.id+'" onclick="setBetSt(this.dataset.id,\'won\')">✓ WON</button>'+
+        '<button class="btn xs red" data-id="'+b.id+'" onclick="setBetSt(this.dataset.id,\'lost\')">✗ LOST</button>':'')+
+      '<button class="btn xs blue" data-id="'+b.id+'" onclick="showReceipt(this.dataset.id)">🖨</button>'+
+      '</div></div></div>';
+  });
+  document.getElementById(boxId).innerHTML=h;
+}
+
+// ============================================================
+// AGENT MODAL
+// ============================================================
+window.openMAgent = function(id, level, parentId){
+  editAgentId = id;
+  document.getElementById('agLevel').value = level || 'sub';
+  document.getElementById('agParent').value = parentId || (curAgent?curAgent.id:'');
+  if(id){
+    var a=getAgentById(id); if(!a) return;
+    document.getElementById('mAgentTitle').textContent='EDIT AGENT';
+    document.getElementById('agN').value=a.name;
+    document.getElementById('agC').value=a.code;
+    document.getElementById('agP').value=a.pass||'';
+    document.getElementById('agPct').value=a.pct||20;
+    document.getElementById('agSt').value=a.status||'active';
+    document.getElementById('agLevel').value=a.level;
+    document.getElementById('agParent').value=a.parentId||'';
+  } else {
+    var title = level==='super'?'ADD SUPER-AGENT':'ADD SUB-AGENT';
+    document.getElementById('mAgentTitle').textContent=title;
+    document.getElementById('agN').value='';
+    document.getElementById('agC').value=genCode();
+    document.getElementById('agP').value='';
+    document.getElementById('agPct').value=20;
+    document.getElementById('agSt').value='active';
+  }
+  openM('mAgent');
+};
+
+window.saveAgent = function(){
+  var name=document.getElementById('agN').value.trim();
+  var pass=document.getElementById('agP').value.trim();
+  if(!name){toast('⚠ Enter name!');return;}
+  if(!pass){toast('⚠ Enter password!');return;}
+  var obj={
+    id:editAgentId||Date.now().toString(),
+    name:name, code:document.getElementById('agC').value,
+    pass:pass, pct:parseInt(document.getElementById('agPct').value)||20,
+    status:document.getElementById('agSt').value,
+    level:document.getElementById('agLevel').value,
+    parentId:document.getElementById('agParent').value||null
+  };
+  var agents=DB.getAgents();
+  if(editAgentId){ for(var i=0;i<agents.length;i++) if(agents[i].id===editAgentId){agents[i]=obj;break;} }
+  else agents.push(obj);
+  DB.setAgents(agents);
+  closeM('mAgent');
+  if(curAgent && curAgent.level==='super') renderSuperAll();
+  else renderAdminAll();
+  toast('✓ Agent saved!');
+};
+
+window.delAgent = function(id){
+  if(!confirm('Delete this agent and all their data?')) return;
+  DB.setAgents(DB.getAgents().filter(function(a){return a.id!==id && a.parentId!==id;}));
+  DB.setPlayers(DB.getPlayers().filter(function(p){return p.agentId!==id;}));
+  DB.setBets(DB.getBets().filter(function(b){return b.agentId!==id;}));
+  if(curAgent && curAgent.level==='super') renderSuperAll();
+  else renderAdminAll();
+  toast('⚠ Agent deleted.');
+};
+
+// ============================================================
+// PLAYER MODAL
+// ============================================================
+window.openMPlayer = function(agentId){
+  document.getElementById('plN').value='';
+  document.getElementById('plE').value='';
+  document.getElementById('plT').value='';
+  document.getElementById('plNo').value='';
+  document.getElementById('plPl').value='Stake';
+  document.getElementById('plAgentId').value = agentId || (curAgent?curAgent.id:'');
+  openM('mPlayer');
+};
+
+window.savePlayer = function(){
+  var name=document.getElementById('plN').value.trim();
+  var agId=document.getElementById('plAgentId').value;
+  if(!name){toast('⚠ Enter player name!');return;}
+  var ag=getAgentById(agId); if(!ag){toast('⚠ Agent not found!');return;}
+  var pl=DB.getPlayers();
+  pl.push({
+    id:Date.now().toString(), name:name,
+    email:document.getElementById('plE').value.trim(),
+    tel:document.getElementById('plT').value.trim(),
+    platform:document.getElementById('plPl').value,
+    note:document.getElementById('plNo').value.trim(),
+    agentId:agId, agentName:ag.name,
+    date:new Date().toISOString()
+  });
+  DB.setPlayers(pl);
+  closeM('mPlayer');
+  if(curAgent){
+    if(curAgent.level==='super') renderSuperAll();
+    else renderSubAll();
+  }
+  toast('✓ Player added!');
+};
+
+window.delPlayer = function(id){
+  if(!confirm('Delete player?')) return;
+  DB.setPlayers(DB.getPlayers().filter(function(p){return p.id!==id;}));
+  DB.setBets(DB.getBets().filter(function(b){return b.playerId!==id;}));
+  if(curAgent){
+    if(curAgent.level==='super') renderSuperAll();
+    else renderSubAll();
+  }
+  toast('⚠ Player deleted.');
+};
+
+// ============================================================
+// BET MODAL
+// ============================================================
+window.openMBet = function(betId, playerId){
+  editBetId = betId;
+  // Build player list - current agent's players
+  var myPl = curAgent ? playersOf(curAgent.id) : [];
+  // If super-agent, also include direct players
+  var L=LANG[curLang]||LANG.en;
+  var opts='<option value="">'+(L.selectPlayer||'-- Select player --')+'</option>';
+  myPl.forEach(function(p){ opts+='<option value="'+p.id+'">'+p.name+'</option>'; });
+  document.getElementById('btPl').innerHTML=opts;
+
+  if(betId){
+    var bets=DB.getBets(); var b=null;
+    for(var i=0;i<bets.length;i++) if(bets[i].id===betId){b=bets[i];break;}
+    if(!b) return;
+    document.getElementById('mBetTitle').textContent='EDIT BET';
+    document.getElementById('btPl').value=b.playerId;
+    document.getElementById('btPlatform').value=b.platform;
+    document.getElementById('btSp').value=b.sport;
+    document.getElementById('btEv').value=b.event;
+    document.getElementById('btAm').value=b.amount;
+    document.getElementById('btCo').value=b.coef;
+    document.getElementById('btPot').value='€'+(parseFloat(b.amount)*parseFloat(b.coef)).toFixed(2);
+    document.getElementById('btSt').value=b.status||'open';
+    document.getElementById('btNo').value=b.note||'';
+  } else {
+    document.getElementById('mBetTitle').textContent='LOG NEW BET';
+    document.getElementById('btAm').value='';
+    document.getElementById('btCo').value='';
+    document.getElementById('btPot').value='';
+    document.getElementById('btEv').value='';
+    document.getElementById('btNo').value='';
+    document.getElementById('btSt').value='open';
+    if(playerId) document.getElementById('btPl').value=playerId;
+  }
+  openM('mBet');
+};
+
+window.saveBet = function(){
+  var pid=document.getElementById('btPl').value;
+  var amount=parseFloat(document.getElementById('btAm').value)||0;
+  var coef=parseFloat(document.getElementById('btCo').value)||0;
+  var event=documen
+t=document.getElementById('btEv').value.trim();
+  if(!pid){toast('Select player!');return;}
+  if(!amount||!coef){toast('Enter amount and odds!');return;}
+  if(!event){toast('Enter match name!');return;}
+  var pls=DB.getPlayers(); var player=null;
+  for(var i=0;i<pls.length;i++) if(pls[i].id===pid){player=pls[i];break;}
+  var existingBet = editBetId ? DB.getBets().find(function(b){return b.id===editBetId;}) : null;
+  var obj={
+    id:editBetId||Date.now().toString(),
+    playerId:pid, playerName:player?player.name:'-',
+    agentId:curAgent.id, agentName:curAgent.name,
+    platform:document.getElementById('btPlatform').value,
+    sport:document.getElementById('btSp').value,
+    event:event, amount:amount, coef:coef,
+    status:document.getElementById('btSt').value,
+    note:document.getElementById('btNo').value.trim(),
+    date:existingBet?existingBet.date:new Date().toISOString()
+  };
+  var bets=DB.getBets();
+  if(editBetId){ for(var i=0;i<bets.length;i++) if(bets[i].id===editBetId){bets[i]=obj;break;} }
+  else bets.push(obj);
+  DB.setBets(bets);
+  closeM('mBet');
+  if(curAgent.level==='super') renderSuperAll();
+  else renderSubAll();
+  toast('Bet saved!');
+};
+
+window.delBet = function(id){
+  if(!confirm('Delete bet?')) return;
+  DB.setBets(DB.getBets().filter(function(b){return b.id!==id;}));
+  if(curAgent.level==='super'){renderSuperBets('');}
+  else{renderSubBets('');}
+  toast('Bet deleted.');
+};
+
+window.setBetSt = function(id,status){
+  var bets=DB.getBets();
+  for(var i=0;i<bets.length;i++) if(bets[i].id===id){bets[i].status=status;break;}
+  DB.setBets(bets);
+  if(curAgent.level==='super'){renderSuperLive();renderSuperBets('');}
+  else{renderSubLive();renderSubBets('');}
+  toast(status==='won'?'WON!':'LOST.');
+};
+
+window.openShare = function(agId){
+  var a=getAgentById(agId); if(!a) return;
+  var levelLabel=a.level==='super'?'SUPER-AGENT':'AGENT';
+  document.getElementById('shareCard').innerHTML=
+    '<div class="scard-share">'+
+    '<div style="text-align:center;font-size:15px;font-weight:700;letter-spacing:3px;color:var(--gold2);margin-bottom:16px">ALFA PORTAL VIP</div>'+
+    '<div class="row"><span class="k">Name</span><span class="v">'+a.name+'</span></div>'+
+    '<div class="row"><span class="k">Level</span><span class="v" style="color:'+(a.level==='super'?'var(--purple)':'var(--blue)')+'">'+levelLabel+'</span></div>'+
+    '<div class="row"><span class="k">Code / Password</span><span class="v gold">'+a.pass+'</span></div>'+
+    '<div class="row"><span class="k">Commission</span><span class="v green">'+(a.pct||20)+'%</span></div>'+
+    '<div class="share-inst"><strong style="color:var(--gold)">HOW TO LOGIN:</strong><br>1. Open <strong>alfa-panel.html</strong><br>2. Click AGENT<br>3. Type: <strong style="color:var(--gold2)">'+a.pass+'</strong><br>4. LOGIN</div></div>';
+  shareData='ALFA PORTAL VIP\n━━━━━━━━━━━━━━━━━━━━━━━━\n'+a.name+'\n'+levelLabel+'\nCode: '+a.pass+'\nCommission: '+(a.pct||20)+'%\n━━━━━━━━━━━━━━━━━━━━━━━━\nHOW TO LOGIN:\n1. Open alfa-panel.html\n2. Click AGENT\n3. Enter: '+a.pass+'\n4. LOGIN\n━━━━━━━━━━━━━━━━━━━━━━━━\nalfaportalvip.com';
+  openM('mShare');
+};
+
+window.copyShareTxt = function(){
+  navigator.clipboard.writeText(shareData).then(function(){
+    toast('Copied! Send via WhatsApp / Telegram / SMS');
+    closeM('mShare');
+  });
+};
+
+window.showReceipt = function(betId){
+  var bets=DB.getBets(); var b=null;
+  for(var i=0;i<bets.length;i++) if(bets[i].id===betId){b=bets[i];break;}
+  if(!b) return;
+  var pot=(parseFloat(b.amount)*parseFloat(b.coef)).toFixed(2);
+  var stMap={won:'WON',lost:'LOST',open:'OPEN'};
+  function rr(l,v,bold){return '<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:12px'+(bold?';font-weight:700':'')+'"><span>'+l+'</span><span>'+v+'</span></div>';}
+  var h='<div id="rcpt" style="background:#fff;color:#000;padding:24px 20px;font-family:Courier New,monospace;">';
+  h+='<div style="text-align:center;font-size:18px;font-weight:700;letter-spacing:3px">ALFA PORTAL VIP</div>';
+  h+='<div style="text-align:center;font-size:10px;color:#555;margin-bottom:14px">'+new Date(b.date).toLocaleString('en-GB')+'</div>';
+  h+='<hr style="border:1px dashed #ccc;margin-bottom:10px">';
+  h+=rr('Player',b.playerName)+rr('Platform',b.platform)+rr('Sport',b.sport)+rr('Match',b.event)+rr('Odds','x'+b.coef);
+  h+='<hr style="border:1px dashed #ccc;margin:10px 0">';
+  h+=rr('AMOUNT','€'+b.amount,true)+rr('POTENTIAL WIN','€'+pot,true);
+  h+='<hr style="border:1px dashed #ccc;margin:10px 0">';
+  h+=rr('STATUS',stMap[b.status||'open'],true);
+  if(b.note) h+='<div style="margin-top:8px;font-size:11px;color:#555">Note: '+b.note+'</div>';
+  h+='<div style="text-align:center;font-size:10px;color:#bbb;margin-top:14px">alfaportalvip.com</div></div>';
+  document.getElementById('rcContent').innerHTML=h;
+  openM('mReceipt');
+};
+
+window.doPrint=function(){var c=document.getElementById('rcpt').outerHTML;var w=window.open('','_blank');w.document.write('<html><body>'+c+'</body></html>');w.document.close();w.print();};
+window.doDownload=function(){var c=document.getElementById('rcpt').outerHTML;var blob=new Blob(['<html><head><meta charset="UTF-8"></head><body>'+c+'</body></html>'],{type:'text/html'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='receipt.html';a.click();toast('Saved!');};
+
+function loadCfgFields(){var cfg=DB.getCfg();document.getElementById('cfgBase').value=cfg.bv||10;document.getElementById('cfgUrl').value=cfg.url||'';}
+window.saveSettings=function(){var cfg=DB.getCfg();var np=document.getElementById('cfgPass').value;var nl=document.getElementById('cfgLink').value.trim();if(np)cfg.ap=np;if(nl)cfg.al=nl;cfg.bv=parseFloat(document.getElementById('cfgBase').value)||10;cfg.url=document.getElementById('cfgUrl').value.trim();DB.setCfg(cfg);document.getElementById('cfgPass').value='';toast('Settings saved!');};
+
+var LANG={
+  en:{noPlayers:'No players yet.',noBets:'No bets yet.',noLive:'No active live bets.',selectPlayer:'-- Select player --',player:'Player',sActive:'ACTIVE',sInactive:'INACTIVE',sPending:'PENDING',sWon:'WON',sLost:'LOST',sOpen:'OPEN'},
+  de:{noPlayers:'Keine Spieler.',noBets:'Keine Wetten.',noLive:'Keine Live-Wetten.',selectPlayer:'-- Spieler wählen --',player:'Spieler',sActive:'AKTIV',sInactive:'INAKTIV',sPending:'WARTEND',sWon:'GEWONNEN',sLost:'VERLOREN',sOpen:'OFFEN'},
+  fr:{noPlayers:'Aucun joueur.',noBets:'Aucun pari.',noLive:'Aucun pari en direct.',selectPlayer:'-- Choisir --',player:'Joueur',sActive:'ACTIF',sInactive:'INACTIF',sPending:'EN ATTENTE',sWon:'GAGNÉ',sLost:'PERDU',sOpen:'OUVERT'},
+  es:{noPlayers:'Sin jugadores.',noBets:'Sin apuestas.',noLive:'Sin apuestas en vivo.',selectPlayer:'-- Seleccionar --',player:'Jugador',sActive:'ACTIVO',sInactive:'INACTIVO',sPending:'PENDIENTE',sWon:'GANADO',sLost:'PERDIDO',sOpen:'ABIERTO'},
+  it:{noPlayers:'Nessun giocatore.',noBets:'Nessuna scommessa.',noLive:'Nessuna scommessa attiva.',selectPlayer:'-- Seleziona --',player:'Giocatore',sActive:'ATTIVO',sInactive:'INATTIVO',sPending:'IN ATTESA',sWon:'VINTO',sLost:'PERSO',sOpen:'APERTO'},
+  pt:{noPlayers:'Sem jogadores.',noBets:'Sem apostas.',noLive:'Sem apostas ao vivo.',selectPlayer:'-- Selecionar --',player:'Jogador',sActive:'ATIVO',sInactive:'INATIVO',sPending:'PENDENTE',sWon:'GANHOU',sLost:'PERDEU',sOpen:'ABERTO'},
+  cs:{noPlayers:'Žádní hráči.',noBets:'Žádné sázky.',noLive:'Žádné sázky.',selectPlayer:'-- Vybrat --',player:'Hráč',sActive:'AKTIVNÍ',sInactive:'NEAKTIVNÍ',sPending:'ČEKÁ',sWon:'VÝHRA',sLost:'PROHRA',sOpen:'OTEVŘENÁ'},
+  tr:{noPlayers:'Oyuncu yok.',noBets:'Bahis yok.',noLive:'Canlı bahis yok.',selectPlayer:'-- Seç --',player:'Oyuncu',sActive:'AKTİF',sInactive:'PASİF',sPending:'BEKLEMEDE',sWon:'KAZANDI',sLost:'KAYBETTİ',sOpen:'AÇIK'},
+  ar:{noPlayers:'لا يوجد لاعبون.',noBets:'لا توجد رهانات.',noLive:'لا توجد رهانات مباشرة.',selectPlayer:'-- اختر --',player:'اللاعب',sActive:'نشط',sInactive:'غير نشط',sPending:'انتظار',sWon:'فاز',sLost:'خسر',sOpen:'مفتوح'},
+  sq:{noPlayers:'Nuk ka lojtarë.',noBets:'Nuk ka baste.',noLive:'Nuk ka baste live.',selectPlayer:'-- Zgjidh --',player:'Lojtari',sActive:'AKTIV',sInactive:'JOAKTIV',sPending:'PRITJE',sWon:'FITUES',sLost:'HUMBËS',sOpen:'I HAPUR'},
+  hr:{noPlayers:'Nema igrača.',noBets:'Nema oklada.',noLive:'Nema oklada.',selectPlayer:'-- Odaberi --',player:'Igrač',sActive:'AKTIVAN',sInactive:'NEAKTIVAN',sPending:'ČEKA',sWon:'DOBITAK',sLost:'GUBITAK',sOpen:'OTVORENO'},
+  sr:{noPlayers:'Nema igrača.',noBets:'Nema oklada.',noLive:'Nema oklada.',selectPlayer:'-- Odaberi --',player:'Igrač',sActive:'AKTIVAN',sInactive:'NEAKTIVAN',sPending:'ČEKA',sWon:'DOBITAK',sLost:'GUBITAK',sOpen:'OTVORENO'},
+  el:{noPlayers:'Δεν υπάρχουν παίκτες.',noBets:'Δεν υπάρχουν στοιχήματα.',noLive:'Δεν υπάρχουν ζωντανά.',selectPlayer:'-- Επιλέξτε --',player:'Παίκτης',sActive:'ΕΝΕΡΓΟΣ',sInactive:'ΑΝΕΝΕΡΓΟΣ',sPending:'ΑΝΑΜΟΝΗ',sWon:'ΚΕΡΔΙΣΕ',sLost:'ΕΧΑΣΕ',sOpen:'ΑΝΟΙΧΤΟ'},
+  pl:{noPlayers:'Brak graczy.',noBets:'Brak zakładów.',noLive:'Brak zakładów.',selectPlayer:'-- Wybierz --',player:'Gracz',sActive:'AKTYWNY',sInactive:'NIEAKTYWNY',sPending:'OCZEKUJE',sWon:'WYGRANA',sLost:'PRZEGRANA',sOpen:'OTWARTE'}
+};
+
+var LNAMES={en:'🇬🇧 English',de:'🇩🇪 Deutsch',fr:'🇫🇷 Français',es:'🇪🇸 Español',it:'🇮🇹 Italiano',pt:'🇵🇹 Português',cs:'🇨🇿 Čeština',tr:'🇹🇷 Türkçe',ar:'🇦🇪 العربية',sq:'🇦🇱 Shqip',hr:'🇭🇷 Hrvatski',sr:'🇷🇸 Srpski',el:'🇬🇷 Ελληνικά',pl:'🇵🇱 Polski'};
+
+window.toggleLang=function(e){if(e)e.stopPropagation();document.getElementById('langDD').classList.toggle('ON');};
+window.setLang=function(code){curLang=code;localStorage.setItem('apv3_lang',code);applyLang(code);document.getElementById('langDD').classList.remove('ON');toast('✓ '+(LNAMES[code]||code));};
+function applyLang(code){document.body.setAttribute('dir',code==='ar'?'rtl':'ltr');['langBtnS','langBtnSub'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=(LNAMES[code]||LNAMES.en)+' ▾';});}
+
+window.openM=function(id){document.getElementById(id).classList.add('ON');};
+window.closeM=function(id){document.getElementById(id).classList.remove('ON');};
+window.copyIt=function(t){navigator.clipboard.writeText(t).then(function(){toast('Copied: '+t);});};
+function toast(msg){var el=document.getElementById('toastEl');el.textContent=msg;el.classList.add('ON');setTimeout(function(){el.classList.remove('ON');},3000);}
+
+document.querySelectorAll('.mov').forEach(function(m){m.addEventListener('click',function(e){if(e.target===m)m.classList.remove('ON');});});
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.lwrap') && !e.target.closest('.langDD')){
+    document.getElementById('langDD').classList.remove('ON');
+  }
+});
+
+})();
+</script>
+</body>
+</html>
