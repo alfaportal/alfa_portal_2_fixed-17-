@@ -37,18 +37,6 @@
   force = true
 
 [[redirects]]
-  from = "/api/go/binance"
-  to = "https://www.binance.com/en/register?ref=GRO_28502_3CYHZ"
-  status = 302
-  force = true
-
-[[redirects]]
-  from = "/api/go/bybit"
-  to = "https://www.bybit.com/en/invite?ref=1JXM10B"
-  status = 302
-  force = true
-
-[[redirects]]
   from = "/api/go/ggpoker"
   to = "https://ggpoker.com/?btag=ALFAPORTALVIP"
   status = 302

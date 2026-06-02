@@ -43120,7 +43120,7 @@ var ONEWIN_ACTIVE_GEO_POOL = [
   "1win.com",
   "1win.pro"
 ];
-var ONEWIN_EU_CRYPTO_POOL = [
+var ONEWIN_EU_MIRROR_POOL = [
   "1win.com",
   "one-vv407.com",
   "1win.pro"
@@ -43145,7 +43145,7 @@ var ONEWIN_ACTIVE_GEO_COUNTRIES = [
   "BY",
   "TR"
 ];
-var ONEWIN_EU_CRYPTO_COUNTRIES = [
+var ONEWIN_EU_MIRROR_COUNTRIES = [
   "HU",
   "GR",
   "IE",
@@ -43167,13 +43167,13 @@ function buildOneWinPoolByCountry() {
   for (const c of ONEWIN_ACTIVE_GEO_COUNTRIES) {
     m[c] = ONEWIN_ACTIVE_GEO_POOL;
   }
-  for (const c of ONEWIN_EU_CRYPTO_COUNTRIES) {
-    m[c] = ONEWIN_EU_CRYPTO_POOL;
+  for (const c of ONEWIN_EU_MIRROR_COUNTRIES) {
+    m[c] = ONEWIN_EU_MIRROR_POOL;
   }
   return m;
 }
 var ONEWIN_POOL_BY_COUNTRY = buildOneWinPoolByCountry();
-var ONEWIN_EU_FALLBACK_POOL = ONEWIN_EU_CRYPTO_POOL;
+var ONEWIN_EU_FALLBACK_POOL = ONEWIN_EU_MIRROR_POOL;
 
 // ../../lib/partner-urls/src/index.ts
 var PARTNER_MIRROR_URLS = {
@@ -43185,15 +43185,11 @@ var PARTNER_MIRROR_URLS = {
   bcgame: "https://bc.game/",
   /** Replace with your tracked Rollbit entry */
   rollbit: "https://rollbit.com/",
-  binance: "https://www.binance.com/en/register?ref=GRO_28502_3CYHZ",
-  bybit: "https://www.bybit.com/en/invite?ref=1JXM10B",
   ggpoker: "https://ggpoker.com/?btag=ALFAPORTALVIP"
 };
 var GO_BRIDGE_PARTNER_URLS = {
   stake: PARTNER_MIRROR_URLS.stake,
   "1win": PARTNER_MIRROR_URLS["1win"],
-  binance: PARTNER_MIRROR_URLS.binance,
-  bybit: PARTNER_MIRROR_URLS.bybit
 };
 
 // ../../lib/smart-bridge/src/pool-utils.ts
@@ -66642,35 +66638,6 @@ var PARTNER_OFFERS = [
     accuracyNote: "Do not invent rakeback rates, NFT details, or bonus sizes. Quote only approved knowledge text."
   },
   {
-    slug: "binance",
-    displayName: "Binance",
-    confirmedFacts: [
-      "Lowest trading fees for VIP members",
-      "High-volume trading rewards",
-      "Access to Binance VIP program through our partnership"
-    ],
-    vipAccessBullets: [
-      "Introduction to the Binance VIP desk",
-      "Guidance on reaching higher fee tiers faster",
-      "Direct connection between you and Binance VIP support"
-    ],
-    accuracyNote: "Do not mention specific USDT voucher amounts, fee percentages, or tier requirements."
-  },
-  {
-    slug: "bybit",
-    displayName: "Bybit",
-    confirmedFacts: [
-      "Exclusive derivatives bonus \u2014 up to $500 reward",
-      "VIP trading program with reduced fees",
-      "Access to Bybit exclusive rewards through our partnership"
-    ],
-    vipAccessBullets: [
-      "Help onboarding to the Bybit VIP program",
-      "Direct support and escalation channel to Bybit VIP team"
-    ],
-    accuracyNote: "Do not mention specific USDT amounts beyond the $500 stated above, fee tiers, or trading volume thresholds."
-  },
-  {
     slug: "ggpoker",
     displayName: "GGPoker",
     confirmedFacts: [
@@ -81038,7 +81005,7 @@ function writeSseChunk(res, content) {
 function buildSystemPrompt(knowledgeBase) {
   return `GREETING: Use 'Welcome to Alfa Portal VIP! How can I help you today?' only once at the start of the conversation. If that exact welcome already appears in the chat thread (e.g. from the site widget), do not repeat it \u2014 answer directly. On all later turns, never open with this welcome again.
 
-SCOPE: Provide information ONLY about the website's content and official partners (Stake, 1Win, Binance, Bybit, and any future added partners).
+SCOPE: Provide information ONLY about the website's content and official partners (Stake, 1Win, Roobet, BC.Game, Rollbit, GGPoker, and any future added partners).
 
 DATA REFRESH: Monitor partner pages twice daily to fetch the latest offers and bonuses. Ensure responses are based on the most current data.
 
