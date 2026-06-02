@@ -223,7 +223,7 @@
         <div class="apv-hdr-av">🏆</div>
         <div class="apv-hdr-info">
           <div class="apv-hdr-name">Alfa Portal VIP Assistant</div>
-          <div class="apv-hdr-status">● LIVE · STAKE · 1win · BINANCE · BYBIT</div>
+          <div class="apv-hdr-status">● LIVE · STAKE · 1win</div>
         </div>
         <div class="apv-close" onclick="apvToggle()">×</div>
       </div>
@@ -243,13 +243,11 @@
         <div class="apv-qbtns" id="apv-qbtns">
           <button class="apv-qbtn" onclick="apvQ('Stake Rakeback')">🎰 Stake</button>
           <button class="apv-qbtn" onclick="apvQ('1win Bonus')">🎁 1win</button>
-          <button class="apv-qbtn" onclick="apvQ('Binance VIP')">₿ Binance</button>
-          <button class="apv-qbtn" onclick="apvQ('Bybit Rewards')">📈 Bybit</button>
           <button class="apv-qbtn" onclick="apvQ('What does Alfa Portal VIP offer?')">ℹ Info</button>
         </div>
         <div class="apv-foot">
           <div class="apv-irow">
-            <input class="apv-inp" id="apv-inp" placeholder="Ask about Stake, 1win, Binance..." onkeydown="if(event.key==='Enter')apvSend()">
+            <input class="apv-inp" id="apv-inp" placeholder="Ask about Stake, 1win, bonuses..." onkeydown="if(event.key==='Enter')apvSend()">
             <button class="apv-sbtn" id="apv-sbtn" onclick="apvSend()">
               <svg viewBox="0 0 24 24" width="14" height="14" fill="#000"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
             </button>
@@ -565,7 +563,7 @@
       // OpenAI key stored securely in Netlify
       var ADMIN_CODE = 'alfavip2024';
 
-      var SYS = 'You are the VIP Assistant of Alfa Portal VIP - a premium casino and sports betting platform.\n\nLANGUAGE RULE:\n- First welcome message: ALWAYS in English\n- All replies after: match the visitor\'s language exactly\n\nPARTNERS (NEVER share affiliate codes or tracking links - just mention the platform name and bonuses):\n- Stake: 3.5% exclusive rakeback\n- 1win: 500% welcome bonus up to \u20ac1500\n- Binance: VIP crypto exchange with reduced fees\n- Bybit: trading rewards program\n- Roobet: 20% daily cashback\n- BC.Game: 300% deposit match\n- Rollbit: 15% instant rakeback + futures & NFTs\n- GGPoker: VIP poker program\n\nRULES:\n1. Be friendly, professional, enthusiastic\n2. NEVER share affiliate codes, referral links or tracking parameters\n3. When recommending a platform just say "you can register through our portal" - DO NOT share any links or codes\n4. Every person who registers through Alfa Portal VIP automatically becomes a member and gets the VIP benefits\n5. Short clear replies with emojis\n6. Non-members: max 5 questions then say to register at alfaportal-vip.com\n7. Never mention codes like c=, ref=, btag=, sharebet= or any tracking parameters';
+      var SYS = 'You are the VIP Assistant of Alfa Portal VIP - a premium casino and sports betting platform.\n\nLANGUAGE RULE:\n- First welcome message: ALWAYS in English\n- All replies after: match the visitor\'s language exactly\n\nPARTNERS (NEVER share affiliate codes or tracking links - just mention the platform name and bonuses):\n- Stake: 3.5% exclusive rakeback\n- 1win: 500% welcome bonus up to \u20ac1500\n- Roobet: 20% daily cashback\n- BC.Game: 300% deposit match\n- Rollbit: 15% instant rakeback + futures & NFTs\n- GGPoker: VIP poker program\n\nRULES:\n1. Be friendly, professional, enthusiastic\n2. NEVER share affiliate codes, referral links or tracking parameters\n3. When recommending a platform just say "you can register through our portal" - DO NOT share any links or codes\n4. Every person who registers through Alfa Portal VIP automatically becomes a member and gets the VIP benefits\n5. Short clear replies with emojis\n6. Non-members: max 5 questions then say to register at alfaportal-vip.com\n7. Never mention codes like c=, ref=, btag=, sharebet= or any tracking parameters';
 
       var msgs = [], guestQ = 0, loading = false, opened = false, pendingAds = [], members = [];
       var MAX_Q = 5;
@@ -622,7 +620,7 @@
         win.style.display = isOpen ? 'none' : 'flex';
         if (!isOpen && !opened) {
           opened = true;
-          var w = '🎰 Welcome to **Alfa Portal VIP**!\n\nI\'m your VIP Assistant. How can I help you today?\n\n💎 Ask about Stake, 1win, Binance, Bybit and more!';
+          var w = '🎰 Welcome to **Alfa Portal VIP**!\n\nI\'m your VIP Assistant. How can I help you today?\n\n💎 Ask about Stake, 1win, rakeback, and bonuses!';
           msgs.push({role:'assistant', content:w});
           apvRender(w, false);
           apvLoadMembers();
@@ -702,14 +700,12 @@
       }
 
       function apvCheckAd(q, r) {
-        var kw = ['stake','1win','binance','bybit','bonus','rakeback','cashback'];
+        var kw = ['stake','1win','bonus','rakeback','cashback'];
         if (!kw.some(function(k){return q.toLowerCase().includes(k)||r.toLowerCase().includes(k);})) return;
         if (Math.random() < 0.5 || pendingAds.length >= 3) return;
         var ads = [
           {text:'🎰 Stake - 3.5% Exclusive Rakeback! Register with our VIP code. ⚠️ USE VPN (Germany/Austria) IF LINK DOES NOT LOAD!', link:'https://stake.com/?tab=register&modal=auth&c=7jlHcmRU&offer=ALFAPORTAL'},
-          {text:'🎁 1win - 500% Welcome Bonus up to €1,500! VIP members only. ⚠️ USE VPN (Germany/Albania) IF LINK DOES NOT LOAD!', link:'https://one-vv407.com/betting?p=pgoj&sharebet=alfaportalvip'},
-          {text:'₿ Binance VIP - Reduced fees for Alfa Portal VIP members.', link:'https://www.binance.com/en/register?ref=GRO_28502_3CYHZ'},
-          {text:'📈 Bybit - Exclusive trading rewards for VIP members.', link:'https://www.bybit.com/en/invite?ref=1JXM10B'}
+          {text:'🎁 1win - 500% Welcome Bonus up to €1,500! VIP members only. ⚠️ USE VPN (Germany/Albania) IF LINK DOES NOT LOAD!', link:'https://one-vv407.com/betting?p=pgoj&sharebet=alfaportalvip'}
         ];
         var ad = ads[Math.floor(Math.random()*ads.length)];
         if (!pendingAds.find(function(a){return a.text===ad.text;})) {
