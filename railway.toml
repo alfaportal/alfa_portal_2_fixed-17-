@@ -1,0 +1,9 @@
+# Alfa Portal VIP — separate Railway service (not KetuJemi).
+# Set env vars from old Netlify dashboard (OPENAI_KEY, email, etc.).
+
+[build]
+builder = "NIXPACKS"
+
+[deploy]
+startCommand = "npm start"
+healthCheckPath = "/api/healthz"
