@@ -1,0 +1,23 @@
+name: Keep Supabase Awake
+
+# Supabase free-tier projects auto-pause after 7 days with no activity.
+# This hits a database-backed API route every few days so the project
+# (and the underlying Postgres database) never goes idle long enough
+# to be paused.
+
+on:
+  schedule:
+    - cron: '0 6 */3 * *' # every 3 days at 06:00 UTC
+  workflow_dispatch: {} # allows manually running it from the Actions tab
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Alfa Portal VIP API (touches the database)
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://alfaportal-vip.com/api/announcements)
+          echo "API responded with status: $STATUS"
+          if [ "$STATUS" -ge 500 ]; then
+            echo "::warning::API returned a server error ($STATUS) — check Railway logs."
+          fi
