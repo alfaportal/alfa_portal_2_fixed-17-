@@ -9,6 +9,7 @@
     "start": "node server.mjs"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.49.8",
     "bcryptjs": "^2.4.3",
     "express": "^4.21.2",
     "nodemailer": "^6.9.16"

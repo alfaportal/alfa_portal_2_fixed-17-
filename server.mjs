@@ -3,6 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import panelRouter from "./src/panel/routes.js";
+import { getSupabaseClient, panelDbConfigured } from "./src/panel/supabase.js";
 
 const require = createRequire(import.meta.url);
 const chatModule = require("./netlify-functions/chat.js");
@@ -157,4 +158,10 @@ app.get("*", (req, res, next) => {
 
 app.listen(port, "0.0.0.0", () => {
   console.log(`[alfaportalvip] listening on ${port}`);
+  if (panelDbConfigured()) {
+    getSupabaseClient();
+    console.log("[alfaportalvip] Supabase panel DB configured");
+  } else {
+    console.warn("[alfaportalvip] Supabase panel DB not configured (SUPABASE_URL + SERVICE_ROLE)");
+  }
 });
