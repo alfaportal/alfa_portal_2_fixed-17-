@@ -557,22 +557,9 @@ tbody td{padding:10px 13px;vertical-align:middle;}
 
 <div class="toast" id="toastEl"></div>
 
+<script src="/js/panel-api.js"></script>
 <script>
 (function(){
-
-// ============================================================
-// DATABASE
-// ============================================================
-var DB = {
-  getCfg: function(){ return JSON.parse(localStorage.getItem('apv3_cfg') || JSON.stringify({ap:'admin123',al:'alfa-vip2024',bv:10,url:''})); },
-  setCfg: function(v){ localStorage.setItem('apv3_cfg',JSON.stringify(v)); },
-  getAgents: function(){ return JSON.parse(localStorage.getItem('apv3_agents')||'[]'); },
-  setAgents: function(v){ localStorage.setItem('apv3_agents',JSON.stringify(v)); },
-  getPlayers: function(){ return JSON.parse(localStorage.getItem('apv3_players')||'[]'); },
-  setPlayers: function(v){ localStorage.setItem('apv3_players',JSON.stringify(v)); },
-  getBets: function(){ return JSON.parse(localStorage.getItem('apv3_bets')||'[]'); },
-  setBets: function(v){ localStorage.setItem('apv3_bets',JSON.stringify(v)); }
-};
 
 // ============================================================
 // STATE
@@ -603,41 +590,34 @@ window.setRole = function(r){
   document.getElementById('lblPass').textContent = r==='admin' ? 'PASSWORD' : 'AGENT CODE';
 };
 
-window.doLogin = function(){
+window.doLogin = async function(){
   var link = document.getElementById('inpLink').value.trim();
   var pass = document.getElementById('inpPass').value.trim();
-  var cfg = DB.getCfg();
-
-  if(loginRole === 'admin'){
-    if(link === cfg.al && pass === cfg.ap){
+  try {
+    if(loginRole === 'admin'){
+      await PanelAPI.login('admin', link, pass);
       show('scAdmin');
       renderAdminAll();
       startClock('clkA');
       loadCfgFields();
-    } else showErr();
-  } else {
-    var agents = DB.getAgents();
-    var ag = null;
-    for(var i=0;i<agents.length;i++){
-      if((agents[i].code===pass || agents[i].pass===pass) && agents[i].status==='active'){
-        ag = agents[i]; break;
-      }
-    }
-    if(ag){
-      curAgent = ag;
-      if(ag.level === 'super'){
-        document.getElementById('superLabel').textContent = '⭐ '+ag.name;
+    } else {
+      var data = await PanelAPI.login('agent', '', pass);
+      curAgent = data.agent;
+      if(curAgent.level === 'super'){
+        document.getElementById('superLabel').textContent = '⭐ '+curAgent.name;
         show('scSuper');
         renderSuperAll();
         startClock('clkS');
       } else {
-        document.getElementById('subLabel').textContent = '👤 '+ag.name;
+        document.getElementById('subLabel').textContent = '👤 '+curAgent.name;
         show('scSub');
         renderSubAll();
         startClock('clkSub');
       }
       applyLang(curLang);
-    } else showErr();
+    }
+  } catch(e) {
+    showErr();
   }
 };
 
@@ -648,6 +628,7 @@ function showErr(){
 }
 
 window.doLogout = function(){
+  PanelAPI.clearSession();
   curAgent = null;
   show('scLogin');
   document.getElementById('inpPass').value = '';
@@ -1158,37 +1139,36 @@ window.openMAgent = function(id, level, parentId){
   openM('mAgent');
 };
 
-window.saveAgent = function(){
+window.saveAgent = async function(){
   var name=document.getElementById('agN').value.trim();
   var pass=document.getElementById('agP').value.trim();
   if(!name){toast('⚠ Enter name!');return;}
   if(!pass){toast('⚠ Enter password!');return;}
   var obj={
-    id:editAgentId||Date.now().toString(),
     name:name, code:document.getElementById('agC').value,
     pass:pass, pct:parseInt(document.getElementById('agPct').value)||20,
     status:document.getElementById('agSt').value,
     level:document.getElementById('agLevel').value,
     parentId:document.getElementById('agParent').value||null
   };
-  var agents=DB.getAgents();
-  if(editAgentId){ for(var i=0;i<agents.length;i++) if(agents[i].id===editAgentId){agents[i]=obj;break;} }
-  else agents.push(obj);
-  DB.setAgents(agents);
-  closeM('mAgent');
-  if(curAgent && curAgent.level==='super') renderSuperAll();
-  else renderAdminAll();
-  toast('✓ Agent saved!');
+  try {
+    if(editAgentId) obj.id = editAgentId;
+    await PanelAPI.saveAgent(obj, !!editAgentId);
+    closeM('mAgent');
+    if(curAgent && curAgent.level==='super') renderSuperAll();
+    else renderAdminAll();
+    toast('✓ Agent saved!');
+  } catch(e) { toast('⚠ ' + (e.message || 'Save failed')); }
 };
 
-window.delAgent = function(id){
+window.delAgent = async function(id){
   if(!confirm('Delete this agent and all their data?')) return;
-  DB.setAgents(DB.getAgents().filter(function(a){return a.id!==id && a.parentId!==id;}));
-  DB.setPlayers(DB.getPlayers().filter(function(p){return p.agentId!==id;}));
-  DB.setBets(DB.getBets().filter(function(b){return b.agentId!==id;}));
-  if(curAgent && curAgent.level==='super') renderSuperAll();
-  else renderAdminAll();
-  toast('⚠ Agent deleted.');
+  try {
+    await PanelAPI.deleteAgent(id);
+    if(curAgent && curAgent.level==='super') renderSuperAll();
+    else renderAdminAll();
+    toast('⚠ Agent deleted.');
+  } catch(e) { toast('⚠ ' + (e.message || 'Delete failed')); }
 };
 
 // ============================================================
@@ -1204,39 +1184,39 @@ window.openMPlayer = function(agentId){
   openM('mPlayer');
 };
 
-window.savePlayer = function(){
+window.savePlayer = async function(){
   var name=document.getElementById('plN').value.trim();
   var agId=document.getElementById('plAgentId').value;
   if(!name){toast('⚠ Enter player name!');return;}
   var ag=getAgentById(agId); if(!ag){toast('⚠ Agent not found!');return;}
-  var pl=DB.getPlayers();
-  pl.push({
-    id:Date.now().toString(), name:name,
-    email:document.getElementById('plE').value.trim(),
-    tel:document.getElementById('plT').value.trim(),
-    platform:document.getElementById('plPl').value,
-    note:document.getElementById('plNo').value.trim(),
-    agentId:agId, agentName:ag.name,
-    date:new Date().toISOString()
-  });
-  DB.setPlayers(pl);
-  closeM('mPlayer');
-  if(curAgent){
-    if(curAgent.level==='super') renderSuperAll();
-    else renderSubAll();
-  }
-  toast('✓ Player added!');
+  try {
+    await PanelAPI.savePlayer({
+      name:name,
+      email:document.getElementById('plE').value.trim(),
+      tel:document.getElementById('plT').value.trim(),
+      platform:document.getElementById('plPl').value,
+      note:document.getElementById('plNo').value.trim(),
+      agentId:agId, agentName:ag.name
+    });
+    closeM('mPlayer');
+    if(curAgent){
+      if(curAgent.level==='super') renderSuperAll();
+      else renderSubAll();
+    }
+    toast('✓ Player added!');
+  } catch(e) { toast('⚠ ' + (e.message || 'Save failed')); }
 };
 
-window.delPlayer = function(id){
+window.delPlayer = async function(id){
   if(!confirm('Delete player?')) return;
-  DB.setPlayers(DB.getPlayers().filter(function(p){return p.id!==id;}));
-  DB.setBets(DB.getBets().filter(function(b){return b.playerId!==id;}));
-  if(curAgent){
-    if(curAgent.level==='super') renderSuperAll();
-    else renderSubAll();
-  }
-  toast('⚠ Player deleted.');
+  try {
+    await PanelAPI.deletePlayer(id);
+    if(curAgent){
+      if(curAgent.level==='super') renderSuperAll();
+      else renderSubAll();
+    }
+    toast('⚠ Player deleted.');
+  } catch(e) { toast('⚠ ' + (e.message || 'Delete failed')); }
 };
 
 // ============================================================
@@ -1279,12 +1259,11 @@ window.openMBet = function(betId, playerId){
   openM('mBet');
 };
 
-window.saveBet = function(){
+window.saveBet = async function(){
   var pid=document.getElementById('btPl').value;
   var amount=parseFloat(document.getElementById('btAm').value)||0;
   var coef=parseFloat(document.getElementById('btCo').value)||0;
-  var event=documen
-t=document.getElementById('btEv').value.trim();
+  var event=document.getElementById('btEv').value.trim();
   if(!pid){toast('Select player!');return;}
   if(!amount||!coef){toast('Enter amount and odds!');return;}
   if(!event){toast('Enter match name!');return;}
@@ -1292,41 +1271,41 @@ t=document.getElementById('btEv').value.trim();
   for(var i=0;i<pls.length;i++) if(pls[i].id===pid){player=pls[i];break;}
   var existingBet = editBetId ? DB.getBets().find(function(b){return b.id===editBetId;}) : null;
   var obj={
-    id:editBetId||Date.now().toString(),
     playerId:pid, playerName:player?player.name:'-',
     agentId:curAgent.id, agentName:curAgent.name,
     platform:document.getElementById('btPlatform').value,
     sport:document.getElementById('btSp').value,
     event:event, amount:amount, coef:coef,
     status:document.getElementById('btSt').value,
-    note:document.getElementById('btNo').value.trim(),
-    date:existingBet?existingBet.date:new Date().toISOString()
+    note:document.getElementById('btNo').value.trim()
   };
-  var bets=DB.getBets();
-  if(editBetId){ for(var i=0;i<bets.length;i++) if(bets[i].id===editBetId){bets[i]=obj;break;} }
-  else bets.push(obj);
-  DB.setBets(bets);
-  closeM('mBet');
-  if(curAgent.level==='super') renderSuperAll();
-  else renderSubAll();
-  toast('Bet saved!');
+  if(editBetId) obj.id = editBetId;
+  try {
+    await PanelAPI.saveBet(obj, !!editBetId);
+    closeM('mBet');
+    if(curAgent.level==='super') renderSuperAll();
+    else renderSubAll();
+    toast('Bet saved!');
+  } catch(e) { toast('⚠ ' + (e.message || 'Save failed')); }
 };
 
-window.delBet = function(id){
+window.delBet = async function(id){
   if(!confirm('Delete bet?')) return;
-  DB.setBets(DB.getBets().filter(function(b){return b.id!==id;}));
-  if(curAgent.level==='super'){renderSuperBets('');}
-  else{renderSubBets('');}
-  toast('Bet deleted.');
+  try {
+    await PanelAPI.deleteBet(id);
+    if(curAgent.level==='super'){renderSuperBets('');}
+    else{renderSubBets('');}
+    toast('Bet deleted.');
+  } catch(e) { toast('⚠ ' + (e.message || 'Delete failed')); }
 };
 
-window.setBetSt = function(id,status){
-  var bets=DB.getBets();
-  for(var i=0;i<bets.length;i++) if(bets[i].id===id){bets[i].status=status;break;}
-  DB.setBets(bets);
-  if(curAgent.level==='super'){renderSuperLive();renderSuperBets('');}
-  else{renderSubLive();renderSubBets('');}
-  toast(status==='won'?'WON!':'LOST.');
+window.setBetSt = async function(id,status){
+  try {
+    await PanelAPI.patchBetStatus(id, status);
+    if(curAgent.level==='super'){renderSuperLive();renderSuperBets('');}
+    else{renderSubLive();renderSubBets('');}
+    toast(status==='won'?'WON!':'LOST.');
+  } catch(e) { toast('⚠ ' + (e.message || 'Update failed')); }
 };
 
 window.openShare = function(agId){
@@ -1377,7 +1356,20 @@ window.doPrint=function(){var c=document.getElementById('rcpt').outerHTML;var w=
 window.doDownload=function(){var c=document.getElementById('rcpt').outerHTML;var blob=new Blob(['<html><head><meta charset="UTF-8"></head><body>'+c+'</body></html>'],{type:'text/html'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='receipt.html';a.click();toast('Saved!');};
 
 function loadCfgFields(){var cfg=DB.getCfg();document.getElementById('cfgBase').value=cfg.bv||10;document.getElementById('cfgUrl').value=cfg.url||'';}
-window.saveSettings=function(){var cfg=DB.getCfg();var np=document.getElementById('cfgPass').value;var nl=document.getElementById('cfgLink').value.trim();if(np)cfg.ap=np;if(nl)cfg.al=nl;cfg.bv=parseFloat(document.getElementById('cfgBase').value)||10;cfg.url=document.getElementById('cfgUrl').value.trim();DB.setCfg(cfg);document.getElementById('cfgPass').value='';toast('Settings saved!');};
+window.saveSettings=async function(){
+  var patch={};
+  var np=document.getElementById('cfgPass').value;
+  var nl=document.getElementById('cfgLink').value.trim();
+  if(np) patch.password=np;
+  if(nl) patch.secret=nl;
+  patch.baseValue=parseFloat(document.getElementById('cfgBase').value)||10;
+  patch.mainUrl=document.getElementById('cfgUrl').value.trim();
+  try {
+    await PanelAPI.saveSettings(patch);
+    document.getElementById('cfgPass').value='';
+    toast('Settings saved!');
+  } catch(e) { toast('⚠ ' + (e.message || 'Save failed')); }
+};
 
 var LANG={
   en:{noPlayers:'No players yet.',noBets:'No bets yet.',noLive:'No active live bets.',selectPlayer:'-- Select player --',player:'Player',sActive:'ACTIVE',sInactive:'INACTIVE',sPending:'PENDING',sWon:'WON',sLost:'LOST',sOpen:'OPEN'},

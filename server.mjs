@@ -2,6 +2,7 @@ import express from "express";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
+import panelRouter from "./src/panel/routes.js";
 
 const require = createRequire(import.meta.url);
 const chatModule = require("./netlify-functions/chat.js");
@@ -122,9 +123,19 @@ for (const [route, target] of Object.entries(GO_REDIRECTS)) {
 app.post("/.netlify/functions/chat", runChat);
 app.post("/api/chat", runChat);
 
+app.get("/panel", (_req, res) => res.redirect(302, "/alfa-panel.html"));
+app.get("/admin", (_req, res) => res.redirect(302, "/alfa-panel.html"));
+app.use("/api/panel", panelRouter);
+
 const apiBridge = createServerlessBridge(loadApiHandler);
 app.use((req, res, next) => {
-  if (!req.path.startsWith("/api/") || req.path === "/api/healthz") return next();
+  if (
+    !req.path.startsWith("/api/")
+    || req.path === "/api/healthz"
+    || req.path.startsWith("/api/panel")
+  ) {
+    return next();
+  }
   return apiBridge(req, res);
 });
 

@@ -95,4 +95,7 @@
 /api/go/rollbit   https://rollbit.com/  302
 /api/go/ggpoker   https://ggpoker.com/?btag=ALFAPORTALVIP  302
 
+/panel   /alfa-panel.html  302
+/admin   /alfa-panel.html  302
+
 /*  /index.html  200
