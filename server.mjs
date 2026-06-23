@@ -3,7 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 import panelRouter from "./src/panel/routes.js";
-import { getSupabaseClient, panelDbConfigured } from "./src/panel/supabase.js";
+import { checkPanelDbHealth, getSupabaseClient, panelDbConfigured } from "./src/panel/supabase.js";
 
 const require = createRequire(import.meta.url);
 const chatModule = require("./netlify-functions/chat.js");
@@ -156,12 +156,21 @@ app.get("*", (req, res, next) => {
   res.sendFile(path.join(rootDir, "index.html"));
 });
 
-app.listen(port, "0.0.0.0", () => {
+app.listen(port, "0.0.0.0", async () => {
   console.log(`[alfaportalvip] listening on ${port}`);
-  if (panelDbConfigured()) {
-    getSupabaseClient();
-    console.log("[alfaportalvip] Supabase panel DB configured");
-  } else {
+  if (!panelDbConfigured()) {
     console.warn("[alfaportalvip] Supabase panel DB not configured (SUPABASE_URL + SERVICE_ROLE)");
+    return;
+  }
+  getSupabaseClient();
+  try {
+    const health = await checkPanelDbHealth();
+    if (health.db) {
+      console.log("[alfaportalvip] Supabase panel DB OK (panel_settings readable)");
+    } else {
+      console.warn("[alfaportalvip] Supabase panel DB issue:", health.error, health.hint || "");
+    }
+  } catch (err) {
+    console.warn("[alfaportalvip] Supabase panel DB health check failed:", err.message);
   }
 });

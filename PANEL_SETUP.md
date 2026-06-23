@@ -7,7 +7,8 @@ Paneli `alfa-panel.html` tani ruan agjentët, lojtarët dhe bastet në **Supabas
 1. Hap [Supabase Dashboard](https://supabase.com/dashboard) → projekti i faqes (p.sh. `rzpiurlabidtvrcumsta`).
 2. **SQL Editor** → **New query**.
 3. Kopjo dhe ekzekuto gjithë skedarin `supabase/panel-schema.sql`.
-4. Verifiko: **Table Editor** → duhet të shohësh `panel_settings`, `panel_agents`, `panel_players`, `panel_bets`.
+4. Nëse ke ekzekutuar skemën më parë dhe `/api/panel/health` kthen `db: false` me `permission denied`, ekzekuto edhe `supabase/panel-rls-fix.sql`.
+5. Verifiko: **Table Editor** → duhet të shohësh `panel_settings`, `panel_agents`, `panel_players`, `panel_bets`.
 
 Tabela `panel_settings` krijohet bosh; fjalëkalimi i parë i adminit (`admin123`) vendoset automatikisht nga API në login-in e parë.
 
@@ -44,14 +45,18 @@ Ndrysho secret/password nga **Settings** në panel pas login-it.
 
 ```bash
 curl https://alfaportal-vip.com/api/panel/health
-# {"ok":true,"db":true}
+# {"ok":true,"configured":true,"db":true,"settingsRows":0}
 
 curl -X POST https://alfaportal-vip.com/api/panel/login \
   -H "Content-Type: application/json" \
   -d '{"role":"admin","secret":"alfa-vip2024","password":"admin123"}'
 ```
 
-Nëse `db: false` → mungojnë `SUPABASE_URL` ose `SUPABASE_SERVICE_ROLE_KEY` në Railway.
+Nëse `configured: false` → mungojnë `SUPABASE_URL` ose `SUPABASE_SERVICE_ROLE_KEY` në Railway.
+
+Nëse `configured: true` por `db: false` → shiko fushën `error` / `hint`:
+- **permission denied** → përdor **service_role** key (jo `anon`), pastaj ekzekuto `panel-rls-fix.sql`.
+- **relation does not exist** → ekzekuto `panel-schema.sql`.
 
 ## Shënim
 

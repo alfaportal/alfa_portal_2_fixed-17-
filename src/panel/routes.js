@@ -6,6 +6,7 @@ import {
   verifyAdminPassword,
 } from "./auth.js";
 import {
+  checkPanelDbHealth,
   panelDbConfigured,
   sbDelete,
   sbInsert,
@@ -107,8 +108,19 @@ function canAccessAgent(user, agent, allAgents) {
   return false;
 }
 
-router.get("/health", (_req, res) => {
-  res.json({ ok: true, db: panelDbConfigured() });
+router.get("/health", async (_req, res) => {
+  try {
+    const health = await checkPanelDbHealth();
+    res.json({ ok: true, ...health });
+  } catch (err) {
+    console.error("[panel/health]", err);
+    res.json({
+      ok: true,
+      configured: panelDbConfigured(),
+      db: false,
+      error: err.message || "Health check failed",
+    });
+  }
 });
 
 router.post("/login", async (req, res) => {

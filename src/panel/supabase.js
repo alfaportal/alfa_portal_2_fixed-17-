@@ -10,6 +10,46 @@ export function panelDbConfigured() {
   return Boolean(SUPABASE_URL && SERVICE_KEY);
 }
 
+/** Lexon panel_settings për të verifikuar lidhjen reale (jo vetëm env vars). */
+export async function checkPanelDbHealth() {
+  if (!panelDbConfigured()) {
+    return {
+      configured: false,
+      db: false,
+      error: "SUPABASE_URL ose SUPABASE_SERVICE_ROLE_KEY mungojnë në Railway.",
+    };
+  }
+
+  const supabase = getSupabaseClient();
+  const { data, error } = await supabase
+    .from("panel_settings")
+    .select("id")
+    .limit(1);
+
+  if (error) {
+    const hint =
+      error.code === "42501" || /permission denied/i.test(error.message)
+        ? "Përdor service_role key (jo anon). Ekzekuto supabase/panel-rls-fix.sql nëse RLS është aktiv."
+        : /relation .* does not exist/i.test(error.message)
+          ? "Ekzekuto supabase/panel-schema.sql në Supabase SQL Editor."
+          : null;
+
+    return {
+      configured: true,
+      db: false,
+      error: error.message,
+      code: error.code ?? null,
+      hint,
+    };
+  }
+
+  return {
+    configured: true,
+    db: true,
+    settingsRows: Array.isArray(data) ? data.length : 0,
+  };
+}
+
 /** @returns {import("@supabase/supabase-js").SupabaseClient | null} */
 export function getSupabaseClient() {
   if (!panelDbConfigured()) return null;

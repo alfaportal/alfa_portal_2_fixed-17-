@@ -60,8 +60,8 @@ CREATE INDEX IF NOT EXISTS idx_panel_bets_agent ON panel_bets(agent_id);
 CREATE INDEX IF NOT EXISTS idx_panel_bets_player ON panel_bets(player_id);
 CREATE INDEX IF NOT EXISTS idx_panel_bets_status ON panel_bets(status);
 
--- RLS off — API server përdor service role key
-ALTER TABLE panel_settings ENABLE ROW LEVEL SECURITY;
-ALTER TABLE panel_agents ENABLE ROW LEVEL SECURITY;
-ALTER TABLE panel_players ENABLE ROW LEVEL SECURITY;
-ALTER TABLE panel_bets ENABLE ROW LEVEL SECURITY;
+-- API server përdor service_role key — RLS duhet të jetë OFF për këto tabela
+ALTER TABLE panel_settings DISABLE ROW LEVEL SECURITY;
+ALTER TABLE panel_agents DISABLE ROW LEVEL SECURITY;
+ALTER TABLE panel_players DISABLE ROW LEVEL SECURITY;
+ALTER TABLE panel_bets DISABLE ROW LEVEL SECURITY;
